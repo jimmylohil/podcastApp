@@ -13,14 +13,14 @@ import AccountCircle from '@material-ui/icons/AccountCircle';
 import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
-import { Button, Popper, Grow, Paper, ClickAwayListener, MenuList } from '@material-ui/core';
+import { Button, Container, Grid } from '@material-ui/core';
 
 import { withStyles } from '@material-ui/core/styles';
-import ListItemIcon from '@material-ui/core/ListItemIcon';
+import Box from '@material-ui/core/Box';
 import ListItemText from '@material-ui/core/ListItemText';
-import InboxIcon from '@material-ui/icons/MoveToInbox';
-import DraftsIcon from '@material-ui/icons/Drafts';
-import SendIcon from '@material-ui/icons/Send';
+import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
+import StarIcon from '@material-ui/icons/Star';
+import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 
 
 
@@ -44,6 +44,7 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
+    marginTop: theme.spacing(2),
     marginRight: theme.spacing(2),
     marginLeft: 0,
     width: '100%',
@@ -89,6 +90,7 @@ const useStyles = makeStyles(theme => ({
 export default function PrimarySearchAppBar() {
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [anchorCategoryEl, setAnchorCategoryEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
   const isMenuOpen = Boolean(anchorEl);
@@ -115,8 +117,16 @@ export default function PrimarySearchAppBar() {
     setAnchorEl(event.currentTarget);
   }
 
+  function handleClickCategory(event) {
+    setAnchorCategoryEl(event.currentTarget);
+  }
+
   function handleClose() {
     setAnchorEl(null);
+  }
+
+  function handleCloseCategory() {
+    setAnchorCategoryEl(null);
   }
 
 
@@ -197,62 +207,159 @@ export default function PrimarySearchAppBar() {
     <div className={classes.grow}>
       <AppBar position="static">
         <Toolbar>
-          <Typography className={classes.title} variant="h6" noWrap>
-            Material-UI
-          </Typography>
-          <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder="Search…"
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput,
-              }}
-              inputProps={{ 'aria-label': 'Search' }}
-            />
-          </div>
-          <div className={classes.grow} />
-          <div className={classes.sectionDesktop}>
-            <IconButton aria-label="Show 4 new mails" color="inherit">
-              <Badge badgeContent={4} color="secondary">
-                <MailIcon />
-              </Badge>
-            </IconButton>
-            <IconButton aria-label="Show 17 new notifications" color="inherit">
-              <Badge badgeContent={17} color="secondary">
-                <NotificationsIcon />
-              </Badge>
-            </IconButton>
-            <Button
-              aria-controls="customized-menu"
-              aria-haspopup="true"
-              variant="text"
-              color="inherit"
-              onClick={handleClick}
-            >
-            <AccountCircle />
-              Username
-            </Button>
-            <StyledMenu
-              id="customized-menu"
-              anchorEl={anchorEl}
-              keepMounted
-              open={Boolean(anchorEl)}
-              onClose={handleClose}
-            >
-              <StyledMenuItem>
-                <ListItemText primary="Profile" />
-              </StyledMenuItem>
-              <StyledMenuItem>
-                <ListItemText primary="Setting" />
-              </StyledMenuItem>
-              <StyledMenuItem>
-                <ListItemText primary="Log Out" />
-              </StyledMenuItem>
-            </StyledMenu>
-          </div>
+          <Container fixed>
+            
+            <Grid 
+              container
+              direction="row"
+              justify="center"
+              alignItems="center"
+              spacing={3}>
+              <Grid item xs={3}>
+                <Grid 
+                  container
+                  direction="row"
+                  justify="left"
+                  alignItems="center"
+                  >
+                  <Typography className={classes.title} variant="h6" noWrap>
+                    Material-UI
+                  </Typography>
+                </Grid>
+              </Grid>
+              <Grid item xs={6}>
+                <Grid item xs={12}>
+                  <div className={classes.search}>
+                    <div className={classes.searchIcon}>
+                      <SearchIcon />
+                    </div>
+                    <InputBase
+                      placeholder="Search…"
+                      classes={{
+                        root: classes.inputRoot,
+                        input: classes.inputInput,
+                      }}
+                      inputProps={{ 'aria-label': 'Search' }}
+                    />
+                  </div>
+                </Grid>
+                <Grid 
+                  container
+                  direction="row"
+                  justify="center"
+                  alignItems="center"
+                  spacing={3}>
+                    <Grid item xs={4}>
+                    <Button
+                        aria-controls="customized-category"
+                        aria-haspopup="true"
+                        variant="text"
+                        color="inherit"
+                        onClick={handleClickCategory}
+                      >
+                        Category
+                        <ArrowDropDownIcon />
+                      </Button>
+                        <StyledMenu
+                        id="customized-category"
+                        anchorEl={anchorCategoryEl}
+                        keepMounted
+                        open={Boolean(anchorCategoryEl)}
+                        onClose={handleCloseCategory}
+                      >
+                        <Box width={200}>
+                          <StyledMenuItem>
+                            <ListItemText primary="Category A" />
+                          </StyledMenuItem>
+                          <StyledMenuItem>
+                            <ListItemText primary="Category B" />
+                          </StyledMenuItem>
+                          <StyledMenuItem>
+                            <ListItemText primary="Category C" />
+                          </StyledMenuItem>
+                        </Box>
+                      </StyledMenu>
+                    </Grid>
+                    <Grid item xs={4}>
+                    <Button
+                        aria-controls="customized-menu"
+                        aria-haspopup="true"
+                        variant="text"
+                        color="inherit"
+                        onClick={handleClick}
+                      >
+                        <SubscriptionsIcon />
+                        Subscription
+                      </Button>
+                    </Grid>
+                    <Grid item xs={4}>
+                      <Button
+                          aria-controls="customized-menu"
+                          aria-haspopup="true"
+                          variant="text"
+                          color="inherit"
+                          onClick={handleClick}
+                        >
+                        <StarIcon />
+                        Trending
+                      </Button>
+                    </Grid>
+                  </Grid>
+              </Grid>
+              <Grid item xs={3}>
+                <Grid 
+                    container
+                    direction="row"
+                    justify="flex-end"
+                    alignItems="center"
+                    >
+                {/* <div className={classes.grow} /> */}
+                  <div className={classes.sectionDesktop}>
+                  
+                  <IconButton aria-label="Show 17 new notifications" color="inherit">
+                    <Badge badgeContent={17} color="secondary">
+                      <NotificationsIcon />
+                    </Badge>
+                  </IconButton>
+                  <Button
+                    aria-controls="customized-menu"
+                    aria-haspopup="true"
+                    variant="text"
+                    color="inherit"
+                    onClick={handleClick}
+                  >
+                  <AccountCircle />
+                    Username
+                  <ArrowDropDownIcon />
+                  </Button>
+                    <StyledMenu
+                      id="customized-menu"
+                      anchorEl={anchorEl}
+                      keepMounted
+                      open={Boolean(anchorEl)}
+                      onClose={handleClose}
+                    >
+                      <Box width={200}>
+                        <StyledMenuItem>
+                          <ListItemText primary="Profile" />
+                        </StyledMenuItem>
+                        <StyledMenuItem>
+                          <ListItemText primary="Setting" />
+                        </StyledMenuItem>
+                        <StyledMenuItem>
+                          <ListItemText primary="Log Out" />
+                        </StyledMenuItem>
+                      </Box>
+                    </StyledMenu>
+                  
+                  </div>
+                </Grid>
+              </Grid>
+            </Grid>
+          </Container>
+          
+          
+          
           <div className={classes.sectionMobile}>
             <IconButton
               aria-label="Show more"
