@@ -3,9 +3,10 @@ import './App.css';
 import HeaderComp from './Components/HeaderComp';
 import LinearListComp from './Components/LinearListComp';
 // import NewRealeseComp from './Components/NewRealeseComp';
-import Tester from './Components/Tester';
-import LoginForm from './Components/LoginForm'
+import LoginFormComp from './Components/LoginFormComp'
+import RegisterFormComp from './Components/RegisterFormComp'
 import RecommendedShowComp from './Components/RecommendedShowComp'
+import UICompTes from './Components/UICompTes'
 
 
 function App() {
@@ -14,9 +15,10 @@ function App() {
       {/* <HeaderComp /> */}
       {/* <NewRealeseComp /> */}
       {/* <LinearListComp /> */}
-      <RecommendedShowComp />
-      <LoginForm />
-      {/* <Tester /> */}
+      {/* <RecommendedShowComp />
+      <UICompTes /> */}
+      <LoginFormComp />
+      {/* <RegisterFormComp /> */}
     </div>
   );
 }
