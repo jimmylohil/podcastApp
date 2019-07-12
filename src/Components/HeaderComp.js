@@ -14,7 +14,7 @@ import MailIcon from '@material-ui/icons/Mail';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import MoreIcon from '@material-ui/icons/MoreVert';
 import { Button, Container, Grid } from '@material-ui/core';
-
+import ToolTip from '@material-ui/core/ToolTip';
 import { withStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import ListItemText from '@material-ui/core/ListItemText';
@@ -93,7 +93,6 @@ export default function PrimarySearchAppBar() {
   const [anchorCategoryEl, setAnchorCategoryEl] = React.useState(null);
   const [mobileMoreAnchorEl, setMobileMoreAnchorEl] = React.useState(null);
 
-  const isMenuOpen = Boolean(anchorEl);
   const isMobileMenuOpen = Boolean(mobileMoreAnchorEl);
 
   function handleProfileMenuOpen(event) {
@@ -102,11 +101,6 @@ export default function PrimarySearchAppBar() {
 
   function handleMobileMenuClose() {
     setMobileMoreAnchorEl(null);
-  }
-
-  function handleMenuClose() {
-    setAnchorEl(null);
-    handleMobileMenuClose();
   }
 
   function handleMobileMenuOpen(event) {
@@ -222,9 +216,11 @@ export default function PrimarySearchAppBar() {
                   justify="left"
                   alignItems="center"
                   >
-                  <Typography className={classes.title} variant="h6" noWrap>
-                    Material-UI
-                  </Typography>
+                  <ToolTip title="Home">
+                    <Typography className={classes.title} variant="h6" noWrap>
+                      PodcastApp
+                    </Typography>
+                  </ToolTip>
                 </Grid>
               </Grid>
               <Grid item xs={6}>
@@ -286,7 +282,7 @@ export default function PrimarySearchAppBar() {
                         aria-haspopup="true"
                         variant="text"
                         color="inherit"
-                        onClick={handleClick}
+                        //onClick={handleClick}
                       >
                         <SubscriptionsIcon />
                         Subscription
@@ -298,7 +294,7 @@ export default function PrimarySearchAppBar() {
                           aria-haspopup="true"
                           variant="text"
                           color="inherit"
-                          onClick={handleClick}
+                          //onClick={handleClick}
                         >
                         <StarIcon />
                         Trending
@@ -315,12 +311,13 @@ export default function PrimarySearchAppBar() {
                     >
                 {/* <div className={classes.grow} /> */}
                   <div className={classes.sectionDesktop}>
-                  
-                  <IconButton aria-label="Show 17 new notifications" color="inherit">
-                    <Badge badgeContent={17} color="secondary">
-                      <NotificationsIcon />
-                    </Badge>
-                  </IconButton>
+                  <ToolTip title="Notification">
+                    <IconButton aria-label="Show 17 new notifications" color="inherit">
+                      <Badge badgeContent={17} color="secondary">
+                        <NotificationsIcon />
+                      </Badge>
+                    </IconButton>
+                  </ToolTip>
                   <Button
                     aria-controls="customized-menu"
                     aria-haspopup="true"
