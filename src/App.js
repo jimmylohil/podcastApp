@@ -1,13 +1,15 @@
 import React from 'react';
 import './App.css';
-import HomeContainerComp from './Components/HomeContainerComp';
-import RecommendedComp from './Components/RecommendedComp';
+import HeaderComp from './Components/HeaderComp';
+//import CategoryPageComp from './Components/CategoryPageComp';
+import ShowPageComp from './Components/ShowPageComp';
 
 function App() {
   return (
     <div className="App">
-      <HomeContainerComp />
-      <RecommendedComp />
+      <HeaderComp />
+      {/* <CategoryPageComp /> */}
+      <ShowPageComp />
     </div>
   );
 }

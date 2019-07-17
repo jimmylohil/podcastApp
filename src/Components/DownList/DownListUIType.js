@@ -1,7 +1,7 @@
 import React from 'react';
-import  * as Cards  from './HorizontalListUI';
+import  * as Cards  from './DownListUI';
 
-function HorizonntalListUIType (props) {
+function DownListUIType (props) {
     if (!props.type)
       return "No";
 
@@ -10,4 +10,4 @@ function HorizonntalListUIType (props) {
     return <Card />
 }
 
-export default HorizonntalListUIType
+export default DownListUIType

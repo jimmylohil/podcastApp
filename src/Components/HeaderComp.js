@@ -123,7 +123,6 @@ export default function PrimarySearchAppBar() {
     setAnchorCategoryEl(null);
   }
 
-
   const StyledMenu = withStyles({
     paper: {
       border: '1px solid #d3d4d5',
@@ -217,7 +216,7 @@ export default function PrimarySearchAppBar() {
                   alignItems="center"
                   >
                   <ToolTip title="Home">
-                    <Typography className={classes.title} variant="h6" noWrap>
+                    <Typography className={classes.title} variant="h6" noWrap >
                       PodcastApp
                     </Typography>
                   </ToolTip>

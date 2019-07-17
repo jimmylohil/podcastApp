@@ -4,7 +4,7 @@ import Tabs from '@material-ui/core/Tabs';
 import Tab from '@material-ui/core/Tab';
 import Typography from '@material-ui/core/Typography';
 import Paper from '@material-ui/core/Paper';
-import HorizontalListComp from './HorizontalList/HorizontalListComp';
+import DownListComp from './DownList/DownListComp';
 
 function TabContainer(props) {
   return (
@@ -31,8 +31,8 @@ export default function SimpleTabs() {
           <Tab label="Show" />
           <Tab label="Episode" />
         </Tabs>
-      {value === 0 && <TabContainer><HorizontalListComp type="HorizontalListUITypeShow"/></TabContainer>}
-      {value === 1 && <TabContainer><HorizontalListComp type="HorizontalListUITypeEpisode"/></TabContainer>}
+      {value === 0 && <TabContainer><DownListComp type="DownListUITypeShow"/></TabContainer>}
+      {value === 1 && <TabContainer><DownListComp type="DownListUITypeEpisode"/></TabContainer>}
     </Paper>
   );
 }
