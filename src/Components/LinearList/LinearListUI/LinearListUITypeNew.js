@@ -5,7 +5,6 @@ import CardHeader from '@material-ui/core/CardHeader';
 import CardMedia from '@material-ui/core/CardMedia';
 import CardContent from '@material-ui/core/CardContent';
 import Typography from '@material-ui/core/Typography';
-import { red } from '@material-ui/core/colors'
 import image from '../podcast.jpg'
 
 
@@ -13,23 +12,14 @@ const useStyles = makeStyles(theme => ({
   card: {
     maxWidth: 345,
   },
+  header: {
+    height: 20,
+    width:60,
+  },
   media: {
     height: 0,
     paddingTop: '56.25%', // 16:9
-  },
-  expand: {
-    transform: 'rotate(0deg)',
-    marginLeft: 'auto',
-    transition: theme.transitions.create('transform', {
-      duration: theme.transitions.duration.shortest,
-    }),
-  },
-  expandOpen: {
-    transform: 'rotate(180deg)',
-  },
-  avatar: {
-    backgroundColor: red[500],
-  },
+  }
 }));
 
 export default function RecipeReviewCard() {
@@ -38,6 +28,7 @@ export default function RecipeReviewCard() {
   return (
     <Card className={classes.card}>
       <CardHeader
+        className={classes.header}
         title="NEW"
       />
       <CardMedia

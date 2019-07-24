@@ -1,9 +1,9 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
-import Box from '@material-ui/core/Box';
 import Grid from '@material-ui/core/Grid';
-import { Button, Container, Link } from '@material-ui/core';
+import { Button, Container } from '@material-ui/core';
+import {Link} from 'react-router-dom';
 import logo from './podcast.jpg';
 
 const useStyles = makeStyles(theme => ({
@@ -104,7 +104,7 @@ export default function TextFields() {
                             justify="center"
                             alignItems="center"
                         >          
-                            <Button variant="contained" color="primary">
+                            <Button variant="contained" color="primary" component={Link} to="/login">
                                 Register
                             </Button>
                         </Grid>
@@ -122,6 +122,7 @@ export default function TextFields() {
                         <Link
                             component="button"
                             variant="body2"
+                            to="/login"
                             >
                             Already a Member? Login
                         </Link>

@@ -1,9 +1,9 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
-import HeaderComp from './HeaderComp'
 import LinearListComp from './LinearList/LinearListComp'
 import RecommendedForYouComp from './RecommendedForYouComp';
 import { Grid, Container } from '@material-ui/core';
+import {Link} from 'react-router-dom';
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -16,7 +16,6 @@ function HomeContainerComp() {
 
     return (
         <div className={classes.root}>
-        <HeaderComp />
             <Container fixed>
                 {/* New Release */}
                 <Grid 
@@ -84,7 +83,9 @@ function HomeContainerComp() {
                     justify="flex-end"
                     alignItems="center">
                     <Grid item xs={1}>
-                        <h5>Show More >></h5>
+                        <Link to="/recommendedforyou">
+                            <h5>Show More >></h5>
+                        </Link>
                     </Grid>
                 </Grid>
             </Container>

@@ -27,7 +27,7 @@ export default function SimpleTabs() {
 
   return (
     <Paper>
-        <Tabs value={value} indicatorColor="primary" textColor="primary" onChange={handleChange}>
+        <Tabs value={value} indicatorColor="primary" textColor="primary" onChange={handleChange} centered>
           <Tab label="Show" />
           <Tab label="Episode" />
         </Tabs>

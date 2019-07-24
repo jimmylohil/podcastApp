@@ -10,7 +10,20 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Rating from '@material-ui/lab/Rating';
+import Modal from '@material-ui/core/Modal';
+import ReviewComp from './ReviewComp';
 import images from './podcast.jpg';
+
+function getModalStyle() {
+    const top = 50;
+    const left = 50 ;
+  
+    return {
+      top: `${top}%`,
+      left: `${left}%`,
+      transform: `translate(-${top}%, -${left}%)`,
+    };
+}
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -42,21 +55,35 @@ const useStyles = makeStyles(theme => ({
     rate: {
         marginTop:6,
     },
+    paper: {
+        position: 'absolute',
+        width: 400,
+        backgroundColor: theme.palette.background.paper,
+        border: '2px solid #000',
+        boxShadow: theme.shadows[5],
+        padding: theme.spacing(2, 4, 4),
+        outline: 'none',
+      },
 }));
 
-function ShowPageComp() {
+function EpisodePageComp() {
     const classes = useStyles();
-    const [expanded, setExpanded] = React.useState(false);
     const [value, setValue] = React.useState(3);
+    const [modalStyle] = React.useState(getModalStyle);
+    const [open, setOpen] = React.useState(true);
 
-    const handleChange = panel => (event, isExpanded) => {
-        setExpanded(isExpanded ? panel : false);
+    const handleOpen = () => {
+        setOpen(true);
+    };
+
+    const handleClose = () => {
+        setOpen(false);
     };
 
     return (
         <div className={classes.root}>
             <Container fixed>
-                {/* Category Name */}
+
                 <Grid 
                     container 
                     spacing={1}
@@ -65,7 +92,7 @@ function ShowPageComp() {
                     alignItems="center"
                     className={classes.grid}
                     >
-                    {/* Show Image */}
+                    {/* Episode Image */}
                     <Grid item xs={4} >
                         <Grid 
                             container 
@@ -78,7 +105,7 @@ function ShowPageComp() {
                             </ButtonBase>
                         </Grid>
                     </Grid>
-                    {/* Show Name */}
+                    {/* Episode Name */}
                     <Grid item xs={7} >
                         <Grid 
                             container 
@@ -87,14 +114,14 @@ function ShowPageComp() {
                             justify="flex-start"
                             alignItems="flex-start"
                             >
-                            <Grid item xs ={12} className={classes.tes}>
+                            <Grid item xs ={12}>
                                 <Grid 
                                 container 
                                 spacing={1}
                                 direction="row"
                                 justify="flex-start"
                                 alignItems="flex-start">
-                                    <h1 className={classes.title}>Show Name</h1>
+                                    <h1 className={classes.title}>Episode: Title</h1>
                                 </Grid>
                             </Grid>
                             <Grid item xs ={12}>
@@ -120,41 +147,69 @@ function ShowPageComp() {
                                     direction="row"
                                     justify="flex-start"
                                     alignItems="flex-start">
-                                    <Button variant="contained" color="primary" className={classes.button}>
-                                        Subscribe
+                                    <Button 
+                                        variant="contained" 
+                                        color="primary" 
+                                        className={classes.button} 
+                                        onClick={handleOpen}>
+                                        Review
                                     </Button>
+                                    {/* ReviewModal */}
+                                    <Modal
+                                        aria-labelledby="simple-modal-title"
+                                        aria-describedby="simple-modal-description"
+                                        open={open}
+                                        onClose={handleClose}
+                                    >
+                                        <div style={modalStyle} className={classes.paper}>
+                                        <h2 id="modal-title">Text in a modal</h2>
+                                        <p id="simple-modal-description">
+                                            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
+                                        </p>
+                                        </div>
+                                    </Modal>
+
                                 </Grid>
                             </Grid>
 
                         </Grid>
                     </Grid>
-                    {/* About */}
-                    <Grid 
-                        container 
-                        spacing={1}
-                        direction="row"
-                        justify="center"
-                        alignItems="center" >
-                        <Grid item xs ={10} >
-                            <ExpansionPanel 
-                                expanded={expanded === 'panel1'} 
-                                onChange={handleChange('panel1')}>
-                                <ExpansionPanelSummary
-                                    expandIcon={<ExpandMoreIcon />}
-                                    aria-controls="panel1bh-content"
-                                    id="panel1bh-header"
-                                    >
-                                    <Typography>About</Typography>
-                                </ExpansionPanelSummary>
-                                <ExpansionPanelDetails>
-                                    <Typography>
-                                        Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat. Aliquam eget
-                                        maximus est, id dignissim quam.
-                                    </Typography>
-                                </ExpansionPanelDetails>
-                            </ExpansionPanel>
-                        </Grid>
-                    </Grid>               
+                    <Grid item xs ={10}>
+                        <ExpansionPanel classes>
+                            {/* About */}
+                            <ExpansionPanelSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel1a-content"
+                                id="panel1a-header"
+                                >
+                                <Typography className={classes.heading}>About</Typography>
+                            </ExpansionPanelSummary>
+                            <ExpansionPanelDetails>
+                                <Typography>
+                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
+                                    sit amet blandit leo lobortis eget.
+                                </Typography>
+                            </ExpansionPanelDetails>
+                        </ExpansionPanel>
+                        <ExpansionPanel>
+                            {/* Review */}
+                            <ExpansionPanelSummary
+                                expandIcon={<ExpandMoreIcon />}
+                                aria-controls="panel2a-content"
+                                id="panel2a-header"
+                                >
+                                <Typography className={classes.heading}>Review</Typography>
+                            </ExpansionPanelSummary>
+                            <ExpansionPanelDetails>
+                                <Grid item xs={6}>
+                                    <ReviewComp />
+                                </Grid>
+                                <Grid item xs={6}>
+                                    <ReviewComp />
+                                </Grid>
+                            </ExpansionPanelDetails>
+                        </ExpansionPanel>        
+                    </Grid>
                 </Grid>   
                 <DownListComp type="DownListUITypeEpisode"/>        
             </Container>
@@ -162,4 +217,4 @@ function ShowPageComp() {
     )
 }
 
-export default ShowPageComp
+export default EpisodePageComp
