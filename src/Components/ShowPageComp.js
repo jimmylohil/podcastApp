@@ -87,7 +87,7 @@ function ShowPageComp() {
                             justify="flex-start"
                             alignItems="flex-start"
                             >
-                            <Grid item xs ={12} className={classes.tes}>
+                            <Grid item xs ={12}>
                                 <Grid 
                                 container 
                                 spacing={1}

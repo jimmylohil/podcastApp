@@ -12,10 +12,11 @@ import Button from '@material-ui/core/Button';
 import Rating from '@material-ui/lab/Rating';
 import Modal from '@material-ui/core/Modal';
 import ReviewComp from './ReviewComp';
+import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import images from './podcast.jpg';
 
 function getModalStyle() {
-    const top = 50;
+    const top = 50 ;
     const left = 50 ;
   
     return {
@@ -23,7 +24,7 @@ function getModalStyle() {
       left: `${left}%`,
       transform: `translate(-${top}%, -${left}%)`,
     };
-}
+  }
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -32,20 +33,25 @@ const useStyles = makeStyles(theme => ({
     grid: {
         marginBottom:30,
     },
+    blue:{
+        backgroundColor:'blue',
+    },
     image: {
-        width: 300,
-        height: 300,
+        width: 250,
+        height: 250,
+        margin: 10,
+        display: 'block',
       },
     img: {
-        margin: 'auto',
+        width: 150,
+        height: 150,
+        margin: '0',
         display: 'block',
-        maxWidth: '100%',
-        maxHeight: '100%',
       },
     title: {
         margin:0,
-        marginTop:20,
         fontSize:75,
+        textAlign: 'left',
     },
     podcaster: {
         margin:0,
@@ -54,6 +60,15 @@ const useStyles = makeStyles(theme => ({
     },
     rate: {
         marginTop:6,
+    },
+    rating:{
+        marginTop:30,
+        fontSize:60,
+    },
+    review:{
+        width:410,
+        marginTop:30,
+        marginBottom:10,
     },
     paper: {
         position: 'absolute',
@@ -68,22 +83,21 @@ const useStyles = makeStyles(theme => ({
 
 function EpisodePageComp() {
     const classes = useStyles();
-    const [value, setValue] = React.useState(3);
+    const [value, setValue] = React.useState(0);
     const [modalStyle] = React.useState(getModalStyle);
-    const [open, setOpen] = React.useState(true);
-
+    const [open, setOpen] = React.useState(false);
+  
     const handleOpen = () => {
-        setOpen(true);
+      setOpen(true);
     };
-
+  
     const handleClose = () => {
-        setOpen(false);
+      setOpen(false);
     };
 
     return (
         <div className={classes.root}>
             <Container fixed>
-
                 <Grid 
                     container 
                     spacing={1}
@@ -93,15 +107,15 @@ function EpisodePageComp() {
                     className={classes.grid}
                     >
                     {/* Episode Image */}
-                    <Grid item xs={4} >
+                    <Grid item xs={3} >
                         <Grid 
                             container 
                             spacing={1}
                             direction="row"
                             justify="center"
                             alignItems="center" >
-                            <ButtonBase className={classes.image}>
-                                <img className={classes.img} alt="complex" src={images} />
+                            <ButtonBase>
+                                <img className={classes.image} alt="complex" src={images} />
                             </ButtonBase>
                         </Grid>
                     </Grid>
@@ -115,19 +129,12 @@ function EpisodePageComp() {
                             alignItems="flex-start"
                             >
                             <Grid item xs ={12}>
-                                <Grid 
-                                container 
-                                spacing={1}
-                                direction="row"
-                                justify="flex-start"
-                                alignItems="flex-start">
-                                    <h1 className={classes.title}>Episode: Title</h1>
-                                </Grid>
+                                <h1 className={classes.title}>Episode: Title</h1>
                             </Grid>
                             <Grid item xs ={12}>
                                 <h2 className={classes.podcaster}>By Podcaster</h2>
                             </Grid>
-                            <Grid item xs ={3}>
+                            <Grid item xs ={2}>
                                 <Rating value={value} readOnly />   
                             </Grid>
                             <Grid item xs ={2} >
@@ -135,8 +142,8 @@ function EpisodePageComp() {
                                     container 
                                     spacing={1}
                                     direction="row"
-                                    justify="flex-start"
-                                    alignItems="flex-start">
+                                    justify="center"
+                                    alignItems="center">
                                     <h4 className={classes.rate}>3/5</h4>
                                 </Grid>
                             </Grid>
@@ -162,13 +169,99 @@ function EpisodePageComp() {
                                         onClose={handleClose}
                                     >
                                         <div style={modalStyle} className={classes.paper}>
-                                        <h2 id="modal-title">Text in a modal</h2>
-                                        <p id="simple-modal-description">
-                                            Duis mollis, est non commodo luctus, nisi erat porttitor ligula.
-                                        </p>
+                                        <Grid 
+                                            container 
+                                            spacing={1}
+                                            direction="row"
+                                            justify="flex-start"
+                                            alignItems="flex-start"
+                                            >
+                                            {/* Episode Image */}
+                                            <Grid item xs={5} >
+                                                <Grid 
+                                                    container 
+                                                    spacing={1}
+                                                    direction="row"
+                                                    justify="center"
+                                                    alignItems="center" >
+                                                    <ButtonBase>
+                                                        <img className={classes.img} alt="complex" src={images} />
+                                                    </ButtonBase>
+                                                </Grid>
+                                            </Grid>
+                                            {/* Episode Name */}
+                                            <Grid item xs={7} >
+                                                <Grid 
+                                                    container 
+                                                    spacing={1}
+                                                    direction="row"
+                                                    justify="center"
+                                                    alignItems="center"
+                                                    >
+                                                    <Grid item xs ={12}>
+                                                        <Grid 
+                                                        container 
+                                                        spacing={1}
+                                                        direction="row"
+                                                        justify="flex-start"
+                                                        alignItems="flex-start">
+                                                            <h1>Episode: Title</h1>
+                                                        </Grid>
+                                                    </Grid>
+                                                    <Grid item xs ={12}>
+                                                        <h3 className={classes.podcaster}>By Podcaster</h3>
+                                                    </Grid>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid 
+                                                container 
+                                                spacing={1}
+                                                direction="row"
+                                                justify="center"
+                                                alignItems="center"
+                                                >
+                                                <Rating
+                                                    name="simple-controlled"
+                                                    value={value}
+                                                    className={classes.rating}
+                                                    onChange={(event, newValue) => {
+                                                        setValue(newValue);
+                                                    }}
+                                                    />
+                                                <Grid item xs ={12}>
+                                                    <Grid 
+                                                    container 
+                                                    spacing={1}
+                                                    direction="row"
+                                                    justify="flex-start"
+                                                    alignItems="flex-start">
+                                                    <TextareaAutosize
+                                                        rowsMax={4}
+                                                        aria-label="maximum height"
+                                                        placeholder="Maximum 4 rows"
+                                                        className={classes.review}
+                                                        defaultValue="Review Here"
+                                                        />
+                                                    </Grid>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid 
+                                                container 
+                                                spacing={1}
+                                                direction="row"
+                                                justify="flex-end"
+                                                alignItems="flex-end"
+                                                >
+                                                <Grid item xs ={3}>
+                                                    <Button variant="contained" color="secondary" onClick={handleClose}>Cancel</Button>
+                                                </Grid>
+                                                <Grid item xs ={3}>
+                                                    <Button variant="contained" color="primary">Save</Button>
+                                                </Grid>
+                                                </Grid>
+                                            </Grid>
                                         </div>
                                     </Modal>
-
                                 </Grid>
                             </Grid>
 
@@ -176,7 +269,7 @@ function EpisodePageComp() {
                     </Grid>
                     <Grid item xs ={10}>
                         <ExpansionPanel classes>
-                            {/* About */}
+                            {/* About Tab*/}
                             <ExpansionPanelSummary
                                 expandIcon={<ExpandMoreIcon />}
                                 aria-controls="panel1a-content"
@@ -192,7 +285,7 @@ function EpisodePageComp() {
                             </ExpansionPanelDetails>
                         </ExpansionPanel>
                         <ExpansionPanel>
-                            {/* Review */}
+                            {/* Review Tab*/}
                             <ExpansionPanelSummary
                                 expandIcon={<ExpandMoreIcon />}
                                 aria-controls="panel2a-content"

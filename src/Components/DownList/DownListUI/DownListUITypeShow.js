@@ -29,7 +29,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function ComplexGrid() {
+export default function DownListTypeUIShow() {
   const classes = useStyles();
 
   return (

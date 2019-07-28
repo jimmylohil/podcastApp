@@ -22,7 +22,7 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function RecipeReviewCard() {
+export default function LinearListUITypeNew() {
   const classes = useStyles();
 
   return (
