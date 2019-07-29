@@ -7,7 +7,7 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
-import {Link as RouterLink} from 'react-router-dom';
+import {Link as RouterLink, BrowserRouter, Route} from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import bgImg from '../images/bg.jpg';
 import PropTypes from 'prop-types';
@@ -15,9 +15,10 @@ import {connect} from 'react-redux';
 import classnames from 'classnames';
 import CategoryWelcomePage from './CategoryWelcomePage';
 import axios from 'axios';
-import AuthService from './AuthService';
 
 
+
+// For Styling
 const useStyles = theme =>({
   '@global':{
     body : {
@@ -66,6 +67,20 @@ link : {
 
 });
 
+const formValid = ({ formErrors, ...rest}) =>{
+  let valid = true;
+
+  Object.values(formErrors).forEach(val => {
+    val.length > 0 && (valid = false);
+  });
+
+  Object.values(rest).forEach(val =>{
+    val === null && (valid = false);
+  });
+  return valid;
+}
+
+
 
 class Login extends Component {
   constructor(props){
@@ -73,38 +88,87 @@ class Login extends Component {
     this.state = {
       username: "",
       password : "",
+      formErrors : {
+        username : "",
+        password : "",
+      }
     };
-    this.onChange = this.onChange.bind(this);
-    this.Auth = new AuthService();
+    // this.onChange = this.onChange.bind(this);
+    
   };
   
 
   onChange = e => {
-    this.setState({[e.target.id] : e.target.value})
+    // this.setState({[e.target.id] : e.target.value})
+    e.preventDefault();
+    const {id, value} = e.target;
+    let formErrors = this.state.formErrors;
+
+    switch(id){
+      case "username":
+        formErrors.username = value.length < 3
+        ? "Enter an username"
+        : ""
+        break;
+
+      case "password":
+        formErrors.password = value.length < 6
+        ? "Minimum 6 characters required"
+        : ""
+        break;
+
+      default:
+        break;
+    }
+
+    this.setState({formErrors, [id] : value}, console.log(this.state));
+
   };
 
   onSubmit = e => {
     e.preventDefault();
+    if(formValid(this.state)){
+      console.log(this.state.username,
+        this.state.email, this.state.password,
+        this.state.confirmPassword);
+      }
+
+    else{
+      console.error("Form Error");
+
+    }
     
     const userData = {
       username : this.state.username,
       password : this.state.password
     }
 
-    var apiBaseUrl = "http://iseeliao.localtunnel.me/main/login";
+    var apiUrl = "http://iseeliao.localtunnel.me/main/login";
     var self = this;
     var payload = {
       "username" : this.state.username,
       "password" : this.state.password
     }
-    axios.post(apiBaseUrl,payload)
+    axios.post(apiUrl,payload)
     .then(
       function(response){
         console.log(response);
-        var categoryPage=[];
-        categoryPage.push(<CategoryWelcomePage appContext=
-          {self.props.appContext}/>)
-          self.props.appContext.setState({Login:[], categoryPage:categoryPage})
+        if(response.data.code == 200){
+          console.log("Login successful");
+          alert("Login Success");
+          this.props.history.push('/CategoryWelcomePage');
+          // var categoryPage=[];
+          // categoryPage.push(<CategoryWelcomePage appContext=
+          //   {self.props.appContext}/>)
+          //   self.props.appContext.setState({Login:[], categoryPage:categoryPage})
+        }
+        else if(response.data.code == 401){
+          console.log("Username password do not match");
+          alert("Username Password do not match")
+        }
+
+       
+        
       }
       
     )
@@ -114,11 +178,8 @@ class Login extends Component {
       console.log(error);
     });
     
-
     
-
-    console.log(userData);
-    alert("Username :" + this.state.username + "Password" + this.state.password)
+    
  
   };
  
@@ -127,6 +188,7 @@ class Login extends Component {
   render(){
 
     const {classes} = this.props;
+    const {formErrors} = this.state;
         return (
           <Grid container component="main" maxWidth="lg" spacing={0} direction="row"
           alignItems="center" justify="center" style={{minHeight: '100vh'}}>
@@ -143,7 +205,8 @@ class Login extends Component {
                   required
                   fullWidth
                   onChange = {this.onChange}
-                  
+                  helperText = {formErrors.username}
+                  error ={formErrors.username.length === 0 ? false : true}
                   />
                  
 
@@ -156,7 +219,8 @@ class Login extends Component {
                   required
                   fullWidth 
                   onChange = {this.onChange}
-                
+                  helperText = {formErrors.password}
+                  error ={formErrors.password.length === 0 ? false : true}
                   />
                   
 
@@ -170,18 +234,14 @@ class Login extends Component {
               </form>
 
               <Grid container>
-                {/* <Grid item xs>
-                  <Link href="#" variant="body2">
-                      Forgot password?
-                  </Link>
-                </Grid> */}
+                
 
                 <Grid item>
-                  <RouterLink to="/register" className={classes.link}>
-                    <Link href="#" variant="body2">
-                        {"Don't have an account ? Sign Up"}
-                    </Link>
-                  </RouterLink>
+                    <RouterLink to="/register" className={classes.link}>
+                    <Link variant="body2" >
+                          {"Don't have an account ? Sign Up"}
+                      </Link>
+                    </RouterLink>
                 </Grid>
 
               </Grid>
