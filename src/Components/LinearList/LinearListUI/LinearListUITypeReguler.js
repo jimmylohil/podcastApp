@@ -32,7 +32,7 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function RecipeReviewCard() {
+export default function LinearListUITypeReguler() {
   const classes = useStyles();
 
   return (

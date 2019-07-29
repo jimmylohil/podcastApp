@@ -40,11 +40,11 @@ const useStyles = makeStyles(theme => ({
         textAlign: 'left',
     },
     rate: {
-        marginTop:6,
+        marginTop:4,
     },
 }));
 
-function ShowPageComp() {
+function PlaylistPageComp() {
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
     const [value, setValue] = React.useState(3);
@@ -78,7 +78,7 @@ function ShowPageComp() {
                             </ButtonBase>
                         </Grid>
                     </Grid>
-                    {/* Show Name */}
+                    {/* Playlist Name */}
                     <Grid item xs={7} >
                         <Grid 
                             container 
@@ -94,16 +94,16 @@ function ShowPageComp() {
                                 direction="row"
                                 justify="flex-start"
                                 alignItems="flex-start">
-                                    <h1 className={classes.title}>Show Name</h1>
+                                    <h1 className={classes.title}>Playlist Name</h1>
                                 </Grid>
                             </Grid>
                             <Grid item xs ={12}>
-                                <h2 className={classes.podcaster}>By Podcaster</h2>
+                                <h2 className={classes.podcaster}>By User</h2>
                             </Grid>
                             <Grid item xs ={3}>
                                 <Rating value={value} readOnly />   
                             </Grid>
-                            <Grid item xs ={2} >
+                            <Grid item xs ={8} >
                                 <Grid 
                                     container 
                                     spacing={1}
@@ -113,7 +113,18 @@ function ShowPageComp() {
                                     <h4 className={classes.rate}>3/5</h4>
                                 </Grid>
                             </Grid>
-                            <Grid item xs ={12}>
+                            <Grid item xs ={2} >
+                                <Grid 
+                                    container 
+                                    spacing={1}
+                                    direction="row"
+                                    justify="flex-start"
+                                    alignItems="flex-start"
+                                    className={classes.rate}>
+                                    1 Subscribed
+                                </Grid>
+                            </Grid>
+                            <Grid item xs ={5}>
                                 <Grid 
                                     container 
                                     spacing={1}
@@ -121,7 +132,7 @@ function ShowPageComp() {
                                     justify="flex-start"
                                     alignItems="flex-start">
                                     <Button variant="contained" color="primary" className={classes.button}>
-                                        Subscribe
+                                        Share
                                     </Button>
                                 </Grid>
                             </Grid>
@@ -162,4 +173,4 @@ function ShowPageComp() {
     )
 }
 
-export default ShowPageComp
+export default PlaylistPageComp

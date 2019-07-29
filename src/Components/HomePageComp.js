@@ -1,7 +1,7 @@
 import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import LinearListComp from './LinearList/LinearListComp'
-import RecommendedForYouComp from './RecommendedForYouComp';
+import SquareGrid from './SquareGrid';
 import { Grid, Container } from '@material-ui/core';
 import {Link} from 'react-router-dom';
 
@@ -18,40 +18,23 @@ function HomeContainerComp() {
         <div className={classes.root}>
             <Container fixed>
                 {/* New Release */}
-                <Grid 
-                    container 
-                    spacing={1}
-                    direction="row"
-                    justify="flex-start"
-                    alignItems="center">
-                    <Grid item xs={2}>
-                        <h2>New Release</h2>
-                    </Grid>
-                </Grid>
-                <LinearListComp type="LinearListUITypeNew"/>
+                <LinearListComp type="LinearListUITypeNew" title="New Release"/>
                 {/* Show More */}
                 <Grid 
                     container 
                     spacing={1}
                     direction="row"
                     justify="flex-end"
-                    alignItems="center">
+                    alignItems="center"
+                    >
                     <Grid item xs={1}>
-                        <h5>Show More >></h5>
+                        <Link to="/new-release">
+                            <h5>Show More >></h5>
+                        </Link>
                     </Grid>
                 </Grid>
                 {/* Recently Played */}
-                <Grid 
-                    container 
-                    spacing={1}
-                    direction="row"
-                    justify="flex-start"
-                    alignItems="center">
-                    <Grid item xs={2}>
-                        <h2>Recently Played</h2>
-                    </Grid>
-                </Grid>
-                <LinearListComp type="LinearListUITypeReguler"/>
+                <LinearListComp type="LinearListUITypeReguler" title="Recently Played"/>
                 {/* Show More */}
                 <Grid 
                     container 
@@ -60,21 +43,13 @@ function HomeContainerComp() {
                     justify="flex-end"
                     alignItems="center">
                     <Grid item xs={1}>
-                        <h5>Show More >></h5>
+                        <Link to="/recently-played">
+                            <h5>Show More >></h5>
+                        </Link>
                     </Grid>
                 </Grid>
                 {/* Recommended For You */}
-                <Grid 
-                    container 
-                    spacing={1}
-                    direction="row"
-                    justify="flex-start"
-                    alignItems="center">
-                    <Grid item xs={3}>
-                        <h2>Recommended For You</h2>
-                    </Grid>
-                </Grid>
-                <RecommendedForYouComp />
+                <SquareGrid title="Recommended For You"/>
                 {/* Show More */}
                 <Grid 
                     container 

@@ -10,9 +10,8 @@ import ExpandMoreIcon from '@material-ui/icons/ExpandMore';
 import Typography from '@material-ui/core/Typography';
 import Button from '@material-ui/core/Button';
 import Rating from '@material-ui/lab/Rating';
+import TextField from '@material-ui/core/TextField';
 import Modal from '@material-ui/core/Modal';
-import ReviewComp from './ReviewComp';
-import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import images from './podcast.jpg';
 
 function getModalStyle() {
@@ -33,25 +32,20 @@ const useStyles = makeStyles(theme => ({
     grid: {
         marginBottom:30,
     },
-    blue:{
-        backgroundColor:'blue',
-    },
     image: {
         width: 250,
         height: 250,
         margin: 10,
-        display: 'block',
       },
     img: {
         width: 150,
         height: 150,
-        margin: '0',
-        display: 'block',
-      },
+        margin: 10,
+    },
     title: {
         margin:0,
+        marginTop:20,
         fontSize:75,
-        textAlign: 'left',
     },
     podcaster: {
         margin:0,
@@ -59,16 +53,7 @@ const useStyles = makeStyles(theme => ({
         textAlign: 'left',
     },
     rate: {
-        marginTop:6,
-    },
-    rating:{
-        marginTop:30,
-        fontSize:60,
-    },
-    review:{
-        width:410,
-        marginTop:30,
-        marginBottom:10,
+        marginTop:4,
     },
     paper: {
         position: 'absolute',
@@ -81,9 +66,10 @@ const useStyles = makeStyles(theme => ({
       },
 }));
 
-function EpisodePageComp() {
+function PlaylistPageComp() {
     const classes = useStyles();
-    const [value, setValue] = React.useState(0);
+    const [expanded, setExpanded] = React.useState(false);
+    const [value, setValue] = React.useState(3);
     const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
   
@@ -95,9 +81,15 @@ function EpisodePageComp() {
       setOpen(false);
     };
 
+
+    const handleChange = panel => (event, isExpanded) => {
+        setExpanded(isExpanded ? panel : false);
+    };
+
     return (
         <div className={classes.root}>
             <Container fixed>
+                {/* Category Name */}
                 <Grid 
                     container 
                     spacing={1}
@@ -106,8 +98,8 @@ function EpisodePageComp() {
                     alignItems="center"
                     className={classes.grid}
                     >
-                    {/* Episode Image */}
-                    <Grid item xs={3} >
+                    {/* Show Image */}
+                    <Grid item xs={4} >
                         <Grid 
                             container 
                             spacing={1}
@@ -119,7 +111,7 @@ function EpisodePageComp() {
                             </ButtonBase>
                         </Grid>
                     </Grid>
-                    {/* Episode Name */}
+                    {/* Playlist Name */}
                     <Grid item xs={7} >
                         <Grid 
                             container 
@@ -129,12 +121,19 @@ function EpisodePageComp() {
                             alignItems="flex-start"
                             >
                             <Grid item xs ={12}>
-                                <h1 className={classes.title}>Episode: Title</h1>
+                                <Grid 
+                                container 
+                                spacing={1}
+                                direction="row"
+                                justify="flex-start"
+                                alignItems="flex-start">
+                                    <h1 className={classes.title}>Podcast Name</h1>
+                                </Grid>
                             </Grid>
                             <Grid item xs ={12}>
-                                <h2 className={classes.podcaster}>By Podcaster</h2>
+                                <h2 className={classes.podcaster}>By Name</h2>
                             </Grid>
-                            <Grid item xs ={2}>
+                            <Grid item xs ={3}>
                                 <Rating value={value} readOnly />   
                             </Grid>
                             <Grid item xs ={2} >
@@ -142,26 +141,33 @@ function EpisodePageComp() {
                                     container 
                                     spacing={1}
                                     direction="row"
-                                    justify="center"
-                                    alignItems="center">
+                                    justify="flex-start"
+                                    alignItems="flex-start">
                                     <h4 className={classes.rate}>3/5</h4>
                                 </Grid>
                             </Grid>
-                            <Grid item xs ={12}>
+                            <Grid item xs ={5} >
+                                <Grid 
+                                    container 
+                                    spacing={1}
+                                    direction="row"
+                                    justify="flex-start"
+                                    alignItems="flex-start"
+                                    className={classes.rate}>
+                                    1 Subscribed
+                                </Grid>
+                            </Grid>
+                            <Grid item xs ={3}>
                                 <Grid 
                                     container 
                                     spacing={1}
                                     direction="row"
                                     justify="flex-start"
                                     alignItems="flex-start">
-                                    <Button 
-                                        variant="contained" 
-                                        color="primary" 
-                                        className={classes.button} 
-                                        onClick={handleOpen}>
-                                        Review
+                                    <Button variant="contained" color="primary" className={classes.button} onClick={handleOpen}>
+                                        Add New Episode
                                     </Button>
-                                    {/* ReviewModal */}
+                                    {/* AddNewEpisodeModal */}
                                     <Modal
                                         aria-labelledby="simple-modal-title"
                                         aria-describedby="simple-modal-description"
@@ -189,7 +195,6 @@ function EpisodePageComp() {
                                                     </ButtonBase>
                                                 </Grid>
                                             </Grid>
-                                            {/* Episode Name */}
                                             <Grid item xs={7} >
                                                 <Grid 
                                                     container 
@@ -199,51 +204,32 @@ function EpisodePageComp() {
                                                     alignItems="center"
                                                     >
                                                     <Grid item xs ={12}>
-                                                        <Grid 
-                                                        container 
-                                                        spacing={1}
-                                                        direction="row"
-                                                        justify="flex-start"
-                                                        alignItems="flex-start">
-                                                            <h1>Episode: Title</h1>
-                                                        </Grid>
+                                                        {/* EpisodeName */}
+                                                        <TextField
+                                                            required
+                                                            id="outlined-required"
+                                                            label="Episode Name"
+                                                            className={classes.textField}
+                                                            margin="normal"
+                                                            variant="outlined"
+                                                        />   
                                                     </Grid>
                                                     <Grid item xs ={12}>
-                                                        <h3 className={classes.podcaster}>By Podcaster</h3>
+                                                        {/* Description */}
+                                                        <TextField
+                                                            required
+                                                            id="outlined-required"
+                                                            label="Description"
+                                                            className={classes.textField}
+                                                            margin="normal"
+                                                            variant="outlined"
+                                                        />  
                                                     </Grid>
                                                 </Grid>
                                             </Grid>
-                                            <Grid 
-                                                container 
-                                                spacing={1}
-                                                direction="row"
-                                                justify="center"
-                                                alignItems="center"
-                                                >
-                                                <Rating
-                                                    name="simple-controlled"
-                                                    value={value}
-                                                    className={classes.rating}
-                                                    onChange={(event, newValue) => {
-                                                        setValue(newValue);
-                                                    }}
-                                                    />
-                                                <Grid item xs ={12}>
-                                                    <Grid 
-                                                    container 
-                                                    spacing={1}
-                                                    direction="row"
-                                                    justify="flex-start"
-                                                    alignItems="flex-start">
-                                                    <TextareaAutosize
-                                                        rowsMax={4}
-                                                        aria-label="maximum height"
-                                                        placeholder="Maximum 4 rows"
-                                                        className={classes.review}
-                                                        defaultValue="Review Here"
-                                                        />
-                                                    </Grid>
-                                                </Grid>
+                                            <Grid item xs ={12}>
+                                                {/* UploadFile */}
+                                                <Button variant="contained">Upload File</Button>
                                             </Grid>
                                             <Grid 
                                                 container 
@@ -264,45 +250,60 @@ function EpisodePageComp() {
                                     </Modal>
                                 </Grid>
                             </Grid>
+                            <Grid item xs ={2}>
+                                <Grid 
+                                    container 
+                                    spacing={1}
+                                    direction="row"
+                                    justify="flex-start"
+                                    alignItems="flex-start">
+                                    <Button variant="contained" color="primary" className={classes.button}>
+                                        Insight
+                                    </Button>
+                                </Grid>
+                            </Grid>
+                            <Grid item xs ={2}>
+                                <Grid 
+                                    container 
+                                    spacing={1}
+                                    direction="row"
+                                    justify="flex-start"
+                                    alignItems="flex-start">
+                                    <Button variant="contained" color="primary" className={classes.button}>
+                                        Edit
+                                    </Button>
+                                </Grid>
+                            </Grid>
 
                         </Grid>
                     </Grid>
-                    <Grid item xs ={10}>
-                        <ExpansionPanel classes>
-                            {/* About Tab*/}
-                            <ExpansionPanelSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel1a-content"
-                                id="panel1a-header"
-                                >
-                                <Typography className={classes.heading}>About</Typography>
-                            </ExpansionPanelSummary>
-                            <ExpansionPanelDetails>
-                                <Typography>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                                    sit amet blandit leo lobortis eget.
-                                </Typography>
-                            </ExpansionPanelDetails>
-                        </ExpansionPanel>
-                        <ExpansionPanel>
-                            {/* Review Tab*/}
-                            <ExpansionPanelSummary
-                                expandIcon={<ExpandMoreIcon />}
-                                aria-controls="panel2a-content"
-                                id="panel2a-header"
-                                >
-                                <Typography className={classes.heading}>Review</Typography>
-                            </ExpansionPanelSummary>
-                            <ExpansionPanelDetails>
-                                <Grid item xs={6}>
-                                    <ReviewComp />
-                                </Grid>
-                                <Grid item xs={6}>
-                                    <ReviewComp />
-                                </Grid>
-                            </ExpansionPanelDetails>
-                        </ExpansionPanel>        
-                    </Grid>
+                    {/* About */}
+                    <Grid 
+                        container 
+                        spacing={1}
+                        direction="row"
+                        justify="center"
+                        alignItems="center" >
+                        <Grid item xs ={10} >
+                            <ExpansionPanel 
+                                expanded={expanded === 'panel1'} 
+                                onChange={handleChange('panel1')}>
+                                <ExpansionPanelSummary
+                                    expandIcon={<ExpandMoreIcon />}
+                                    aria-controls="panel1bh-content"
+                                    id="panel1bh-header"
+                                    >
+                                    <Typography>About</Typography>
+                                </ExpansionPanelSummary>
+                                <ExpansionPanelDetails>
+                                    <Typography>
+                                        Nulla facilisi. Phasellus sollicitudin nulla et quam mattis feugiat. Aliquam eget
+                                        maximus est, id dignissim quam.
+                                    </Typography>
+                                </ExpansionPanelDetails>
+                            </ExpansionPanel>
+                        </Grid>
+                    </Grid>               
                 </Grid>   
                 <DownListComp type="DownListUITypeEpisode"/>        
             </Container>
@@ -310,4 +311,4 @@ function EpisodePageComp() {
     )
 }
 
-export default EpisodePageComp
+export default PlaylistPageComp
