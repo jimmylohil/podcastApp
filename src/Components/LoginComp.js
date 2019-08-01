@@ -93,8 +93,8 @@ class Login extends Component {
         password : "",
       }
     };
-    // this.onChange = this.onChange.bind(this);
-    
+    this.onChange = this.onChange.bind(this);
+    this.onSubmit = this.onSubmit.bind(this);
   };
   
 
@@ -153,21 +153,28 @@ class Login extends Component {
     .then(
       function(response){
         console.log(response);
-        if(response.data.code == 200){
+        
+        if(response.status == 200 && response.data.error == null){
           console.log("Login successful");
           alert("Login Success");
-          this.props.history.push('/CategoryWelcomePage');
+          let authToken = response.data.token;
+          sessionStorage.setItem("JWT", authToken);
+          self.props.history.push({
+            pathname:'/categorywelcomepage',
+            state:{
+            username : self.state.username,
+          }});
+         
           // var categoryPage=[];
-          // categoryPage.push(<CategoryWelcomePage appContext=
-          //   {self.props.appContext}/>)
+          // categoryPage.push(<CategoryWelcomePage appContext={self.props.appContext}/>)
           //   self.props.appContext.setState({Login:[], categoryPage:categoryPage})
         }
-        else if(response.data.code == 401){
+        else if(response.status == 200 && response.data.error == true){
           console.log("Username password do not match");
           alert("Username Password do not match")
         }
 
-       
+      
         
       }
       

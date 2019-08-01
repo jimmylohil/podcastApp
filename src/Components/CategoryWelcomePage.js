@@ -25,6 +25,8 @@ import img from '../images/bg.jpg';
 import education from '../images/education.jpg';
 import music from '../images/music.jpg';
 import PropTypes from 'prop-types';
+import Login from './Login';
+import {withRouter} from 'react-router-dom';
 
 
 
@@ -88,8 +90,6 @@ paperlist : {
 
 
 class CategoryWelcomePage extends Component{
-    
-
 
     render(){
         
@@ -102,7 +102,7 @@ class CategoryWelcomePage extends Component{
                             What are you interested in ?
                         </Typography>
                         <Typography component="h2" variant="h3">
-                            Haiii ! 
+                            Haiii ! {this.props.location.state.username}
                         </Typography>
         
                         <Paper className={classes.searchbox}>
