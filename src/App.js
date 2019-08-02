@@ -1,8 +1,9 @@
 import React from 'react';
 import './App.css';
-import { Route, BrowserRouter as Router, Redirect } from 'react-router-dom';
-import LoginFormComp from'./Components/LoginFormComp';
-import RegisterFormComp from'./Components/RegisterFormComp';
+import { Route, BrowserRouter as Router, Redirect,} from 'react-router-dom';
+import CategoryWelcomePage from'./Components/CategoryWelcomePage';
+import LoginComp from'./Components/LoginComp';
+import RegisterComp from'./Components/RegisterComp';
 import HomePageComp from'./Components/HomePageComp';
 import ShowPageComp from'./Components/ShowPageComp';
 import EpisodePageComp from'./Components/EpisodePageComp';
@@ -15,9 +16,28 @@ import PlaylistPageComp from './Components/PlaylistPageComp';
 import DashboardPageComp from './Components/DashboardPageComp';
 import InsightForPodcasterComp from './Components/InsightForPodcasterComp';
 
+
 function App() {
-  const [loggedIn] = React.useState(false);
+
+  const data = {
+    logo : require( "./images/podlogo_text_dark.png" ),
+    loginUrl : "https://iseeliao.localtunnel.me/main/login",
+    registerUrl : "https://iseeliao.localtunnel.me/main/signup",
+    categoryListUrl : "",
+    userToken : ""
+  }
   
+  const [loggedIn] = React.useState(false);
+
+  // component for header
+  const WithHeaderComp = ({component: Component, ...rest}) => (
+    <Route {...rest} render={(props) => (
+        <>
+            <HeaderComp data={data}/>
+            <Component {...props} />
+        </>
+    )} />
+)
   return (
     <div className="App">
     <Router>
@@ -29,21 +49,22 @@ function App() {
             <Redirect to="/login"/>
           )
         )}/>
-        <Route path="/login" component={LoginFormComp} />
-        <Route path="/register" component={RegisterFormComp} />
-        <HeaderComp />
-        <Route path="/home" component={HomePageComp} />
-        <Route path="/recommendedforyou" component={RecommendedPageComp} />
-        <Route path="/new-release" component={() => <DownListComp type="DownListUITypeEpisode" title="New Release" />} />
-        <Route path="/trending" component={() => <DownListComp type="DownListUITypeEpisode" title="Trending" />} />
-        <Route path="/subscription" component={() => <DownListComp type="DownListUITypeEpisode" title="Subscription" />} />
-        <Route path="/showpage" component={ShowPageComp} />
-        <Route path="/episodepage" component={EpisodePageComp} />
-        <Route path="/userpage" component={UserPageComp} />
-        <Route path="/recently-played" component={RecentlyPlayedComp} />
-        <Route path="/playlist" component={PlaylistPageComp} />
-        <Route path="/dashboard" component={DashboardPageComp} />
-        <Route path="/insight" component={InsightForPodcasterComp} />
+        <Route exact path="/login" component={() => <LoginComp data={data}/>} />
+        <Route exact path="/register" component={RegisterComp} />
+        <Route exact path="/categorypage" component={CategoryWelcomePage} />
+
+        <WithHeaderComp path="/home" component={HomePageComp}/>
+        <WithHeaderComp path="/recommendedforyou" component={RecommendedPageComp} />
+        <WithHeaderComp path="/new-release" component={() => <DownListComp type="DownListUITypeEpisode" title="New Release" />} />
+        <WithHeaderComp path="/trending" component={() => <DownListComp type="DownListUITypeEpisode" title="Trending" />} />
+        <WithHeaderComp path="/subscription" component={() => <DownListComp type="DownListUITypeEpisode" title="Subscription" />} />
+        <WithHeaderComp path="/showpage" component={ShowPageComp} />
+        <WithHeaderComp path="/episodepage" component={EpisodePageComp} />
+        <WithHeaderComp path="/userpage" component={UserPageComp} />
+        <WithHeaderComp path="/recently-played" component={RecentlyPlayedComp} />
+        <WithHeaderComp path="/playlist" component={PlaylistPageComp} />
+        <WithHeaderComp path="/dashboard" component={DashboardPageComp} />
+        <WithHeaderComp path="/insight" component={InsightForPodcasterComp} />
       </div>
     </Router>
     </div>

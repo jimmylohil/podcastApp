@@ -4,15 +4,9 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import bgImg from '../images/bg.jpg';
-import {Link as RouterLink, withRouter} from 'react-router-dom';
+import { withStyles } from '@material-ui/core/styles';
+import {Link} from 'react-router-dom';
 import PropTypes from 'prop-types';
-import {Formik} from 'formik';
-import * as Yup from 'yup';
 import axios from 'axios';
 import CategoryWelcomePage from './CategoryWelcomePage';
 
@@ -23,7 +17,6 @@ const useStyles = theme =>({
       background: 'linear-gradient(326deg, #050115 0%, #100a26 47%, #3c0b65 95%)',
     },
   },
-
   paper : {
     width :theme.spacing(45),
     display : 'flex',
@@ -31,42 +24,18 @@ const useStyles = theme =>({
     alignItems : 'center',
     backgroundColor : theme.palette.common.white,
     padding : theme.spacing(5),
-    // position : 'absolute',
-    // top: '50%',
-    // left: '50%',
-    // transform: 'translateX(-50%) translateY(-50%)',
-},
-
-form : {
-  width : '100%',
-  marginTop : theme.spacing(1),
-},
-
-submit : {
-  margin : theme.spacing(2,0,2),
-  background: 'linear-gradient(326deg, #050115 0%, #100a26 47%, #3c0b65 95%)',
-
-},
-
-// textfield : {
-//   color : theme.palette.common.white,
-
-//   '& .MuiOutlinedInput-root': {
-//     '& fieldset': {
-//       borderColor: 'grey',
-//     },
-//     '&:hover fieldset': {
-//       borderColor: 'black',
-//     },
-//     '&.Mui-focused fieldset': {
-//       borderColor: 'purple',
-//     },
-//   },
-// }
-link : {
-  textDecoration : 'none',
-},
-
+  },
+  form : {
+    width : '100%',
+    marginTop : theme.spacing(1),
+  },
+  submit : {
+    margin : theme.spacing(2,0,2),
+    background: 'linear-gradient(326deg, #050115 0%, #100a26 47%, #3c0b65 95%)',
+  },
+  link : {
+    textDecoration : 'none',
+  },
 });
 
 const emailRegex = RegExp(/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/)
@@ -84,10 +53,6 @@ const formValid = ({ formErrors, ...rest}) =>{
   return valid;
 };
 
-
-
-
-
 class Register extends Component{
   constructor(props){
     super(props);
@@ -103,7 +68,6 @@ class Register extends Component{
         confirmPassword : ""
       }
     }
-
   }
 
   onChange = e =>{
@@ -111,7 +75,6 @@ class Register extends Component{
     const {id, value} = e.target;
     let formErrors = this.state.formErrors;
     
-
     switch(id){
       case "username":
         formErrors.username = value.length < 3
@@ -132,20 +95,19 @@ class Register extends Component{
         break;
 
       case "confirmPassword":
-        formErrors.confirmPassword = value != this.state.password
+        formErrors.confirmPassword = value !== this.state.password
         ? "Password is not same"
         : ""
-      
+        break;
+
       default:
         break;
     }
     this.setState({formErrors, [id] : value}, console.log(this.state))
   }
 
-
   onSubmit = e =>{
     e.preventDefault();
-
     if(formValid(this.state)){
       console.log(this.state.username,
         this.state.email, this.state.password,
@@ -154,9 +116,7 @@ class Register extends Component{
 
     else{
       console.error("Form Error");
-
     }
-
 
     var apiUrl = "http://iseeliao.localtunnel.me/main/signup";
     var self = this;
@@ -177,7 +137,7 @@ class Register extends Component{
             {self.props.appContext}/>)
             self.props.appContext.setState({Login:[], categoryPage:categoryPage})
         }
-        else if(response.data.code == 401){
+        else if(response.data.code === 401){
           console.log("Missing Fields");
           alert("Missing Fields")
         }
@@ -190,12 +150,6 @@ class Register extends Component{
     });  
 };
     
-  
-
-
-
-
-
   render(){
     const {classes} = this.props;
     const {formErrors} = this.state;
@@ -265,13 +219,10 @@ class Register extends Component{
                 fullWidth>Register</Button>
             </form>
             
-              
-            <RouterLink to ="/login" className={classes.link}>
-              <Link variant="body2" >
-                Already have an account? Login
-              </Link>
-            </RouterLink>
-                  
+            <Link to ="/login" className={classes.link}>
+              Already have an account? Login
+            </Link>
+
           </div>
 
         </Grid>
