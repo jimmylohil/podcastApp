@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import {component} from 'react';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField'
@@ -7,11 +6,11 @@ import Grid from '@material-ui/core/Grid';
 import { makeStyles, withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import Link from '@material-ui/core/Link';
-import {Link as RouterLink, BrowserRouter, Route} from 'react-router-dom';
+import {Link as RouterLink, BrowserRouter, Route, withRouter} from 'react-router-dom';
 import CssBaseline from '@material-ui/core/CssBaseline';
 import bgImg from '../images/bg.jpg';
 import PropTypes from 'prop-types';
-import {connect} from 'react-redux';
+//import {connect} from 'react-redux';
 import classnames from 'classnames';
 import CategoryWelcomePage from './CategoryWelcomePage';
 import axios from 'axios';
@@ -265,4 +264,4 @@ Login.propTypes ={
 }
 
 
-export default withStyles(useStyles)(Login);
+export default withRouter(withStyles(useStyles)(Login));

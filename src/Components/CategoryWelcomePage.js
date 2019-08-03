@@ -95,8 +95,11 @@ class CategoryWelcomePage extends Component{
                 console.log("Get Category successful")
                 console.log(response)
                 this.setState (
-                    {category:response.data}
+                    {category:response.data.categories}
                 )
+                console.log("category : "+ this.state.category)
+                console.log("category123 : "+response.data.categories)
+
         }
         )
         .catch(function(error)
@@ -118,7 +121,8 @@ class CategoryWelcomePage extends Component{
                         </Typography>
                         <Typography component="h2" variant="h3">
                             
-                            {/* Haiii ! {this.props.location.state.username} */}
+                            Haiii ! {this.props.location.state.username}
+                            
                         </Typography>
         
                         <Paper className={classes.searchbox}>
@@ -139,7 +143,7 @@ class CategoryWelcomePage extends Component{
 
                         {
                             category.map (item =>
-                            <h1>{item.categories}</h1>
+                            <h1>Tes - {item}</h1>
                             )
                         }
 

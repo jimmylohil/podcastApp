@@ -51,7 +51,7 @@ function App() {
         )}/>
         <Route exact path="/login" component={() => <LoginComp data={data}/>} />
         <Route exact path="/register" component={RegisterComp} />
-        <Route exact path="/categorypage" component={CategoryWelcomePage} />
+        <Route exact path="/categorywelcomepage" component={CategoryWelcomePage} />
 
         <WithHeaderComp path="/home" component={HomePageComp}/>
         <WithHeaderComp path="/recommendedforyou" component={RecommendedPageComp} />
