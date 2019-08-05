@@ -9,6 +9,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
+import Category from '@material-ui/icons/Category';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { Button, Container, Grid } from '@material-ui/core';
 import ToolTip from '@material-ui/core/ToolTip';
@@ -30,8 +31,9 @@ const useStyles = makeStyles(theme => ({
   },
   logo: {
     marginTop:12,
-    height:70,
-    width:250,
+    marginRight:28,
+    height:35,
+    width:125,
   },
   search: {
     position: 'relative',
@@ -40,14 +42,10 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
-    marginTop: theme.spacing(2),
+    //marginTop: theme.spacing(2),
     marginRight: theme.spacing(2),
-    marginLeft: 0,
     width: '100%',
-    [theme.breakpoints.up('sm')]: {
-      marginLeft: theme.spacing(3),
-      width: 'auto',
-    },
+
   },
   searchIcon: {
     width: theme.spacing(7),
@@ -66,7 +64,7 @@ const useStyles = makeStyles(theme => ({
     transition: theme.transitions.create('width'),
     width: '100%',
     [theme.breakpoints.up('md')]: {
-      width: 200,
+      width: 530,
     },
   },
   sectionDesktop: {
@@ -80,6 +78,12 @@ const useStyles = makeStyles(theme => ({
     [theme.breakpoints.up('md')]: {
       display: 'none',
     },
+  },
+  red: {
+    backgroundColor: 'red',
+  },
+  blue: {
+    backgroundColor: 'blue',
   },
 }));
 
@@ -105,12 +109,6 @@ export default function PrimarySearchAppBar(props) {
     setAnchorCategoryEl(null);
   }
 
-  function tester(){
-    setData({ 
-      logo : require( "../images/podlogo_text_dark.png" )
-
-    })
-  }
   const StyledMenu = withStyles({
     paper: {
       border: '1px solid #d3d4d5',
@@ -152,98 +150,65 @@ export default function PrimarySearchAppBar(props) {
               direction="row"
               justify="center"
               alignItems="center"
-              spacing={3}>
+              spacing={1}>
               <Grid item xs={3}>
                 <Grid 
                   container
                   direction="row"
-                  justify="left"
+                  justify="flex-start"
                   alignItems="center"
                   >
-                  
                   <Link to ="/home">
                     <img alt="logo" src={data.logo}className={classes.logo}/>
                   </Link>
+                  <Button
+                    aria-controls="customized-category"
+                    aria-haspopup="true"
+                    variant="text"
+                    color="inherit"
+                    onClick={handleClickCategory}
+                  >
+                  <Category />
+                    Category
+                  <ArrowDropDownIcon />
+                  </Button>
+                    <StyledMenu
+                      id="customized-category"
+                      anchorEl={anchorCategoryEl}
+                      keepMounted
+                      open={Boolean(anchorCategoryEl)}
+                      onClose={handleCloseCategory}
+                    >
+                      <Box width={200}>
+                        <StyledMenuItem>
+                          <ListItemText primary="Profile" />
+                        </StyledMenuItem>
+                        <StyledMenuItem>
+                          <ListItemText primary="Setting" />
+                        </StyledMenuItem>
+                        <StyledMenuItem>
+                          <ListItemText primary="Log Out" />
+                        </StyledMenuItem>
+                      </Box>
+                    </StyledMenu>
                 </Grid>
               </Grid>
               <Grid item xs={6}>
-                <Grid item xs={12}>
-                  <div className={classes.search}>
-                    <div className={classes.searchIcon}>
-                      <SearchIcon/>
-                    </div>
-                    <InputBase
-                      placeholder="Search…"
-                      classes={{
-                        root: classes.inputRoot,
-                        input: classes.inputInput,
-                      }}
-                      inputProps={{ 'aria-label': 'Search' }}
-                    />
+                <div className={classes.search}>
+                  <div className={classes.searchIcon}>
+                    <SearchIcon/>
                   </div>
-                </Grid>
-                <Grid 
-                  container
-                  direction="row"
-                  justify="center"
-                  alignItems="center"
-                  spacing={3}>
-                    <Grid item xs={4}>
-                    <Button
-                        aria-controls="customized-category"
-                        aria-haspopup="true"
-                        variant="text"
-                        color="inherit"
-                        onClick={handleClickCategory}
-                      >
-                        Category
-                        <ArrowDropDownIcon />
-                      </Button>
-                        <StyledMenu
-                        id="customized-category"
-                        anchorEl={anchorCategoryEl}
-                        keepMounted
-                        open={Boolean(anchorCategoryEl)}
-                        onClose={handleCloseCategory}
-                      >
-                        <Box width={200}>
-                          <StyledMenuItem>
-                            <ListItemText primary="Category A" />
-                          </StyledMenuItem>
-                          <StyledMenuItem>
-                            <ListItemText primary="Category B" />
-                          </StyledMenuItem>
-                          <StyledMenuItem>
-                            <ListItemText primary="Category C" />
-                          </StyledMenuItem>
-                        </Box>
-                      </StyledMenu>
-                    </Grid>
-                    <Grid item xs={4}>
-                    <Button
-                        aria-controls="customized-menu"
-                        aria-haspopup="true"
-                        variant="text"
-                        color="inherit"
-                        onClick={tester}
-                      >
-                        <SubscriptionsIcon />
-                        Subscription
-                      </Button>
-                    </Grid>
-                    <Grid item xs={4}>
-                      <Button
-                          aria-controls="customized-menu"
-                          aria-haspopup="true"
-                          variant="text"
-                          color="inherit"
-                        >
-                        <StarIcon />
-                        Trending
-                      </Button>
-                    </Grid>
-                  </Grid>
+                  <InputBase
+                    placeholder="Search…"
+                    classes={{
+                      root: classes.inputRoot,
+                      input: classes.inputInput,
+                    }}
+                    inputProps={{ 'aria-label': 'Search' }}
+                  />
+                </div>
               </Grid>
+                
               <Grid item xs={3}>
                 <Grid 
                     container
@@ -259,6 +224,16 @@ export default function PrimarySearchAppBar(props) {
                       </Badge>
                     </IconButton>
                   </ToolTip>
+                  <Button
+                          aria-controls="customized-menu"
+                          aria-haspopup="true"
+                          variant="text"
+                          color="inherit"
+                        >
+                        <StarIcon />
+                        Trending
+                      </Button>
+                  
                   <Button
                     aria-controls="customized-menu"
                     aria-haspopup="true"
