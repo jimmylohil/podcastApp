@@ -22,8 +22,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function LinearListUITypeNew() {
+export default function LinearListUITypeNew(props) {
   const classes = useStyles();
+ 
 
   return (
     <Card className={classes.card}>

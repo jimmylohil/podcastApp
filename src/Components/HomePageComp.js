@@ -11,6 +11,7 @@ const useStyles = makeStyles(theme => ({
     },
   }));
 
+
 function HomeContainerComp() {
     const classes = useStyles();
 
@@ -18,7 +19,7 @@ function HomeContainerComp() {
         <div className={classes.root}>
             <Container fixed>
                 {/* New Release */}
-                <LinearListComp type="LinearListUITypeNew" title="New Release"/>
+                <LinearListComp  type="LinearListUITypeNew" title="New Release"/>
                 {/* Show More */}
                 <Grid 
                     container 
