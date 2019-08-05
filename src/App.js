@@ -15,56 +15,61 @@ import RecentlyPlayedComp from './Components/RecentlyPlayedComp';
 import PlaylistPageComp from './Components/PlaylistPageComp';
 import DashboardPageComp from './Components/DashboardPageComp';
 import InsightForPodcasterComp from './Components/InsightForPodcasterComp';
+import Player from './Components/Player';
+import auth from './Components/auth';
+
 
 
 function App() {
-
+  const isLogin = auth.isLogin();
   const data = {
-    logo : require( "./images/podlogo_text_dark.png" ),
+    logo : require( "./images/podlogo.png" ),
     loginUrl : "https://iseeliao.localtunnel.me/main/login",
     registerUrl : "https://iseeliao.localtunnel.me/main/signup",
     categoryListUrl : "",
-    userToken : ""
+    userToken : "",
+    categoryList: []
   }
   
-  const [loggedIn] = React.useState(false);
-
-  // component for header
-  const WithHeaderComp = ({component: Component, ...rest}) => (
+  const PrivateRoute = ({component: Component, ...rest}) => (
     <Route {...rest} render={(props) => (
-        <>
-            <HeaderComp data={data}/>
-            <Component {...props} />
-        </>
+      <>
+          <HeaderComp data={data}/>
+          <Component {...props} />
+          {auth.isShow() ? <Player /> : null}
+      </>
     )} />
-)
+  )
+
+
   return (
     <div className="App">
     <Router>
       <div>   
         <Route exact path="/" render={() => (
-          loggedIn ? (
+          auth.isLogin() ? (
             <Redirect to="/home"/>
           ) : (
             <Redirect to="/login"/>
           )
         )}/>
-        <Route exact path="/login" component={() => <LoginComp data={data}/>} />
+        <Route exact path="/login" render={props => <LoginComp data={data} {...props}/>} />
         <Route exact path="/register" component={RegisterComp} />
-        <Route exact path="/categorywelcomepage" component={CategoryWelcomePage} />
+        <Route exact path="/categorywelcomepage" render={props => <CategoryWelcomePage data={data} {...props}/>} />
 
-        <WithHeaderComp path="/home" component={HomePageComp}/>
-        <WithHeaderComp path="/recommendedforyou" component={RecommendedPageComp} />
-        <WithHeaderComp path="/new-release" component={() => <DownListComp type="DownListUITypeEpisode" title="New Release" />} />
-        <WithHeaderComp path="/trending" component={() => <DownListComp type="DownListUITypeEpisode" title="Trending" />} />
-        <WithHeaderComp path="/subscription" component={() => <DownListComp type="DownListUITypeEpisode" title="Subscription" />} />
-        <WithHeaderComp path="/showpage" component={ShowPageComp} />
-        <WithHeaderComp path="/episodepage" component={EpisodePageComp} />
-        <WithHeaderComp path="/userpage" component={UserPageComp} />
-        <WithHeaderComp path="/recently-played" component={RecentlyPlayedComp} />
-        <WithHeaderComp path="/playlist" component={PlaylistPageComp} />
-        <WithHeaderComp path="/dashboard" component={DashboardPageComp} />
-        <WithHeaderComp path="/insight" component={InsightForPodcasterComp} />
+        <PrivateRoute path="/home" component={HomePageComp}/>
+        <PrivateRoute path="/recommendedforyou" component={RecommendedPageComp} />
+        <PrivateRoute path="/new-release" component={() => <DownListComp type="DownListUITypeEpisode" title="New Release" />} />
+        <PrivateRoute path="/trending" component={() => <DownListComp type="DownListUITypeEpisode" title="Trending" />} />
+        <PrivateRoute path="/subscription" component={() => <DownListComp type="DownListUITypeEpisode" title="Subscription" />} />
+        <PrivateRoute path="/showpage" component={ShowPageComp} />
+        <PrivateRoute path="/episodepage" component={EpisodePageComp} />
+        <PrivateRoute path="/userpage" component={UserPageComp} />
+        <PrivateRoute path="/recently-played" component={RecentlyPlayedComp} />
+        <PrivateRoute path="/playlist" component={PlaylistPageComp} />
+        <PrivateRoute path="/dashboard" component={DashboardPageComp} />
+        <PrivateRoute path="/insight" component={InsightForPodcasterComp} />
+        
       </div>
     </Router>
     </div>

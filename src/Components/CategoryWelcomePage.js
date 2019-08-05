@@ -16,6 +16,11 @@ import Avatar from '@material-ui/core/Avatar';
 import axios from 'axios';
 import { isTSEnumMember } from '@babel/types';
 
+import {Link } from 'react-router-dom';
+
+import auth from './auth';
+
+
 
 
 const useStyles = theme =>({
@@ -78,9 +83,9 @@ chiplist : {
 
 
 class CategoryWelcomePage extends Component{
+    
     constructor(props) {
         super(props)
-    
         this.state = {
              category: []
         }
@@ -89,7 +94,7 @@ class CategoryWelcomePage extends Component{
 
     componentDidMount(){
         
-        axios.get("http://iseeliao.localtunnel.me//api/category/list?token=".concat(sessionStorage.getItem("JWT")))
+        axios.get("http://localhost:8000/api/category/list?token=".concat(sessionStorage.getItem("JWT")))
         .then(
         (response) => {
                 console.log("Get Category successful")
@@ -97,8 +102,8 @@ class CategoryWelcomePage extends Component{
                 this.setState (
                     {category:response.data.categories}
                 )
+                console.log (auth.isLogin());
                 console.log("category : "+ this.state.category)
-                console.log("category123 : "+response.data.categories)
 
         }
         )
@@ -106,6 +111,7 @@ class CategoryWelcomePage extends Component{
         {
         console.log(error);
         });
+        
     }
 
 
@@ -121,6 +127,7 @@ class CategoryWelcomePage extends Component{
                         </Typography>
                         <Typography component="h2" variant="h3">
                             
+
                             Haiii ! {this.props.location.state.username}
                             
                         </Typography>
@@ -140,24 +147,24 @@ class CategoryWelcomePage extends Component{
                         onDelete="{handleDelete}"
                         className={classes.chiplist}
                         />
-
                         {
                             category.map (item =>
-                            <h1>Tes - {item}</h1>
+                            <h1>{item}</h1>
                             )
+                            
                         }
 
-        
+                        <Link to="/home">
                         <Button className={classes.submit}
                           type="submit"
                           variant="contained"
                           color="primary">Continue</Button>
+                        </Link>
 
                         <Button className={classes.submit}
                           onClick={this.onLogoutClick}
                           variant="contained"
                           color="primary">Logout</Button>
-        
                     </div>
     
                   </Container>

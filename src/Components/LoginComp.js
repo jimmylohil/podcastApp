@@ -14,7 +14,7 @@ import PropTypes from 'prop-types';
 import classnames from 'classnames';
 import CategoryWelcomePage from './CategoryWelcomePage';
 import axios from 'axios';
-
+import auth from './auth';
 
 
 // For Styling
@@ -84,6 +84,8 @@ const formValid = ({ formErrors, ...rest}) =>{
 class Login extends Component {
   constructor(props){
     super(props);
+    console.log (this.props)
+    
     this.state = {
       username: "",
       password : "",
@@ -130,6 +132,7 @@ class Login extends Component {
       console.log(this.state.username,
         this.state.email, this.state.password,
         this.state.confirmPassword);
+        console.log(this.props)
       }
 
     else{
@@ -142,55 +145,52 @@ class Login extends Component {
       password : this.state.password
     }
 
-    var apiUrl = "http://iseeliao.localtunnel.me/main/login";
+    var apiUrl = "http://localhost:8000/main/login";
     var self = this;
     var payload = {
       "username" : this.state.username,
       "password" : this.state.password
     }
+    console.log(this.props)
     axios.post(apiUrl,payload)
     .then(
       function(response){
         console.log(response);
-        
+
         if(response.status == 200 && response.data.error == null){
           console.log("Login successful");
           alert("Login Success");
+          
+          auth.login( () =>{
+
           let authToken = response.data.token;
           sessionStorage.setItem("JWT", authToken);
           self.props.history.push({
             pathname:'/categorywelcomepage',
             state:{
-            username : self.state.username,
+              username : self.state.username,
           }});
-         
+        })
+          }
+
           // var categoryPage=[];
           // categoryPage.push(<CategoryWelcomePage appContext={self.props.appContext}/>)
           //   self.props.appContext.setState({Login:[], categoryPage:categoryPage})
-        }
+        
         else if(response.status == 200 && response.data.error == true){
           console.log("Username password do not match");
           alert("Username Password do not match")
         }
-
-      
-        
-      }
-      
+      }  
     )
 
     .catch(function(error)
     {
       console.log(error);
     });
-    
-    
-    
- 
+   
   };
  
-
-
   render(){
 
     const {classes} = this.props;
@@ -215,7 +215,7 @@ class Login extends Component {
                   error ={formErrors.username.length === 0 ? false : true}
                   />
                  
-
+               
                   <TextField 
                   variant="outlined"
                   type="password"

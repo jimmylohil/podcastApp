@@ -83,7 +83,8 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function PrimarySearchAppBar() {
+export default function PrimarySearchAppBar(props) {
+  const [data,setData] = React.useState(props.data);
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [anchorCategoryEl, setAnchorCategoryEl] = React.useState(null);
@@ -104,6 +105,12 @@ export default function PrimarySearchAppBar() {
     setAnchorCategoryEl(null);
   }
 
+  function tester(){
+    setData({ 
+      logo : require( "../images/podlogo_text_dark.png" )
+
+    })
+  }
   const StyledMenu = withStyles({
     paper: {
       border: '1px solid #d3d4d5',
@@ -155,7 +162,7 @@ export default function PrimarySearchAppBar() {
                   >
                   
                   <Link to ="/home">
-                    <img alt="logo" src={logo}className={classes.logo}/>
+                    <img alt="logo" src={data.logo}className={classes.logo}/>
                   </Link>
                 </Grid>
               </Grid>
@@ -163,7 +170,7 @@ export default function PrimarySearchAppBar() {
                 <Grid item xs={12}>
                   <div className={classes.search}>
                     <div className={classes.searchIcon}>
-                      <SearchIcon />
+                      <SearchIcon/>
                     </div>
                     <InputBase
                       placeholder="Search…"
@@ -218,6 +225,7 @@ export default function PrimarySearchAppBar() {
                         aria-haspopup="true"
                         variant="text"
                         color="inherit"
+                        onClick={tester}
                       >
                         <SubscriptionsIcon />
                         Subscription

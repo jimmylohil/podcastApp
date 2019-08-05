@@ -14,6 +14,7 @@ import Modal from '@material-ui/core/Modal';
 import ReviewComp from './ReviewComp';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
 import images from './podcast.jpg';
+import auth from './auth';
 
 function getModalStyle() {
     const top = 50 ;
@@ -97,6 +98,7 @@ function EpisodePageComp() {
 
     return (
         <div className={classes.root}>
+            {console.log(auth.isShow())}
             <Container fixed>
                 <Grid 
                     container 
