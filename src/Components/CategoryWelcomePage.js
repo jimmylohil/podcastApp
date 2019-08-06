@@ -85,9 +85,16 @@ paperlist : {
     paddingRight : '5px',
     textAlign : 'left',
 },
-chip : {
-    margin : 5,
+button : {
+    width : "50%",
+    background: '#3c0b65',
+    marginTop : theme.spacing(2)
+    
+},
+chip :{
+    margin : theme.spacing(1)
 }
+
 });
 
 
@@ -96,7 +103,8 @@ class CategoryWelcomePage extends Component{
         super(props);
         this.state = {
             category : [],
-            preferred : []
+            preferred : [],
+            username : this.props.location.state.username
         };
         this.onChange = this.onChange.bind(this);
     };
@@ -104,10 +112,9 @@ class CategoryWelcomePage extends Component{
     onChange = e =>{
         const preferred = this.state.preferred
         let index
-  
+
         //check if the check box is checked or unchecked
         if(e.target.checked){
-
             preferred.push(e.target.value)
         }
         else{
@@ -116,12 +123,59 @@ class CategoryWelcomePage extends Component{
         }
 
         this.setState({preferred: preferred})
-        
+        if(this.state.preferred.length > 3){
+            alert("Pick 3 categories")
+            
+        }
         console.log (this.state.preferred);
     };
 
+    onLogoutClick = e =>{
+        sessionStorage.removeItem("JWT");
+        this.props.history.push({
+            pathname:'/login',
+            });
+    }
+
+    onSubmit = e =>{
+        e.preventDefault();
+        if(this.state.preferred.length != 3){
+            alert("Pick 3 categories");
+        }
+        else{
+            var pref1 = encodeURIComponent(this.state.preferred[0]);
+            var pref2 = encodeURIComponent(this.state.preferred[1]);
+            var pref3 = encodeURIComponent(this.state.preferred[2]);
+            var username = this.state.username;
+            console.log(pref1)
+            console.log(pref2)
+            console.log(pref3)
+            console.log(username)
+            var apiUrl = `http://localhost:80/api/setPreferredCategories?username=${username}&pref=${pref1}&pref=${pref2}&pref=${pref3}&token=`.concat(sessionStorage.getItem("JWT"));
+            console.log(apiUrl);
+            axios.post(apiUrl)
+            .then(
+                function(response){
+                    console.log(response);
+                    alert("Data saved");
+                }
+                
+            )
+            .catch(function(error)
+            {
+                console.log(error);
+            }
+            );
+            
+        }
+        
+        
+    }
+
+
+
     componentDidMount(){
-        axios.get('http://localhost:8000/api/category/list?token='.concat(sessionStorage.getItem("JWT")))
+        axios.get('http://localhost:80/api/category/list?token='.concat(sessionStorage.getItem("JWT")))
         .then(
             (response) => {
                 console.log("Get category successful")
@@ -129,7 +183,7 @@ class CategoryWelcomePage extends Component{
                 this.setState(
                     {category:response.data.categories}
                 )
-
+                // console.log(this.state.category)
             }
         )
 
@@ -163,25 +217,25 @@ class CategoryWelcomePage extends Component{
                                 <SearchIcon />
                             </IconButton>
                         </Paper>
-                        <div className={classes.paperlist}>
-    
+        
+                        <Paper className={classes.paperlist}>
                             {preferred.map(item =>{
                                 return(
                                     <Chip
-                                        label={item}
-                                        className={classes.chip}
-                                        />
-                                    
+                                    label={item}
+                                    className={chip}
+                                    />
                                 )
                             })}
-
-                        </div>   
+                            
+                        </Paper>
+        
                         <Grid container maxWidth="lg"> 
 
                             {
                                 category.map((item, i) =>
                                     {   
-                                        //console.log(item)
+                                        
                                         return(
                                             <Card className={classes.card}>
                                                 <CardMedia
@@ -192,7 +246,7 @@ class CategoryWelcomePage extends Component{
                                                 />
 
                                                 <CardContent className={classes.content}>
-                                                    <Typography component="h2" variant="h5">{item}
+                                                    <Typography component="h2" variant="h6">{item}
                                                         <Checkbox
                                                         key={i}
                                                         name={item}
@@ -209,109 +263,22 @@ class CategoryWelcomePage extends Component{
                                     })
                             }
                         
-                            {/* <Card className={classes.card}>
-                                <CardMedia
-                                className={classes.media}
-                                image={education}
-                                title="Education"/>
-
-                                <CardContent className={classes.content}>
-                                    <Typography component="h2" variant="h5">Education
-                                        <Checkbox 
-                                        value="checked" />
-                                    </Typography>
-                                </CardContent>
-                            </Card>
-        
-        
-                            <Card className={classes.card}>
-                                <CardMedia
-                                className={classes.media}
-                                image={music}
-                                title="Music"
-                                />
-
-                                <CardContent>
-                                    <Typography component="h2" variant="h5">Music
-                                        <Checkbox 
-                                        value="checked" />
-                                    </Typography>
-                                </CardContent>
-                            </Card>
-
-                            <Card className={classes.card}>
-                                <CardMedia
-                                className={classes.media}
-                                image={music}
-                                title="Music"
-                                />
-
-                                <CardContent>
-                                    <Typography component="h2" variant="h5">Music
-                                        <Checkbox 
-                                        value="checked" />
-                                    </Typography>
-                                </CardContent>
-                            </Card>
-                            
-                
-                            <Card className={classes.card}>
-                                <CardMedia
-                                className={classes.media}
-                                image={music}
-                                title="Music"
-                                />
-
-                                <CardContent>
-                                    <Typography component="h2" variant="h5">Technology
-                                        <Checkbox 
-                                        value="checked" />
-                                    </Typography>
-                                </CardContent>
-                            </Card>
-                            
-        
-                            <Card className={classes.card}>
-                                <CardMedia
-                                className={classes.media}
-                                image={music}
-                                title="Music"
-                                />
-
-                                <CardContent>
-                                    <Typography component="h2" variant="h5">Humour
-                                        <Checkbox 
-                                        value="checked" />
-                                    </Typography>
-                                </CardContent>
-                            </Card>
-
-                            <Card className={classes.card}>
-                                <CardMedia
-                                className={classes.media}
-                                image={music}
-                                title="Music"
-                                />
-
-                                <CardContent>
-                                    <Typography component="h2" variant="h5">Business
-                                        <Checkbox 
-                                        value="checked" />
-                                    </Typography>
-                                </CardContent>
-                            </Card> */}
-                          
                         </Grid>
-        
-                        <Button className={classes.submit}
-                          type="submit"
-                          variant="contained"
-                          color="primary">Continue</Button>
+                        
+                        <Button className={classes.button}
+                                onClick = {this.onSubmit}
+                                type="submit"
+                                variant="contained"
+                                color="primary">Continue</Button>
+                                
+                        <Button className={classes.button}
+                                onClick={this.onLogoutClick}
+                                variant="contained"
+                                color="primary">Logout</Button>
 
-                        <Button className={classes.submit}
-                          onClick={this.onLogoutClick}
-                          variant="contained"
-                          color="primary">Logout</Button>
+                            
+
+                        
         
                     </div>
     
