@@ -85,13 +85,6 @@ paperlist : {
     paddingRight : '5px',
     textAlign : 'left',
 },
-button : {
-    width : "50%",
-    background: '#3c0b65',
-    marginTop : theme.spacing(2)
-    
-},
-
 
 });
 
@@ -101,8 +94,7 @@ class CategoryWelcomePage extends Component{
         super(props);
         this.state = {
             category : [],
-            preferred : [],
-            username : this.props.location.state.username
+            preferred : []
         };
         this.onChange = this.onChange.bind(this);
     };
@@ -113,62 +105,17 @@ class CategoryWelcomePage extends Component{
 
         //check if the check box is checked or unchecked
         if(e.target.checked){
-            preferred.push(e.target.value)
+            preferred.push(+e.target.value)
         }
         else{
-            index = preferred.indexOf(e.target.value)
+            index = preferred.indexOf(+e.target.value)
             preferred.splice(index,1)
         }
 
         this.setState({preferred: preferred})
-        if(this.state.preferred.length > 3){
-            alert("Pick 3 categories")
-            
-        }
+        
         console.log (this.state.preferred);
     };
-
-    onLogoutClick = e =>{
-        sessionStorage.removeItem("JWT");
-        this.props.history.push({
-            pathname:'/login',
-            });
-    }
-
-    onSubmit = e =>{
-        e.preventDefault();
-        if(this.state.preferred.length != 3){
-            alert("Pick 3 categories");
-        }
-        else{
-            var pref1 = encodeURIComponent(this.state.preferred[0]);
-            var pref2 = encodeURIComponent(this.state.preferred[1]);
-            var pref3 = encodeURIComponent(this.state.preferred[2]);
-            var username = this.state.username;
-            console.log(pref1)
-            console.log(pref2)
-            console.log(pref3)
-            console.log(username)
-            var apiUrl = `http://localhost:80/api/setPreferredCategories?username=${username}&pref=${pref1}&pref=${pref2}&pref=${pref3}&token=`.concat(sessionStorage.getItem("JWT"));
-            console.log(apiUrl);
-            axios.post(apiUrl)
-            .then(
-                function(response){
-                    console.log(response);
-                    alert("Data saved");
-                }
-                
-            )
-            .catch(function(error)
-            {
-                console.log(error);
-            }
-            );
-            
-        }
-        
-        
-    }
 
 
 
@@ -224,7 +171,11 @@ class CategoryWelcomePage extends Component{
                                     />
                                 )
                             })}
-                            
+                            <Chip
+                            label="Deletable Chip"
+                            onDelete="{handleDelete}"
+                            className="{classes.chip}"
+                            />
                         </Paper>
         
                         <Grid container maxWidth="lg"> 
@@ -232,7 +183,7 @@ class CategoryWelcomePage extends Component{
                             {
                                 category.map((item, i) =>
                                     {   
-                                        
+                                        console.log(item)
                                         return(
                                             <Card className={classes.card}>
                                                 <CardMedia
@@ -243,7 +194,7 @@ class CategoryWelcomePage extends Component{
                                                 />
 
                                                 <CardContent className={classes.content}>
-                                                    <Typography component="h2" variant="h6">{item}
+                                                    <Typography component="h2" variant="h5">{item}
                                                         <Checkbox
                                                         key={i}
                                                         name={item}
@@ -260,22 +211,109 @@ class CategoryWelcomePage extends Component{
                                     })
                             }
                         
-                        </Grid>
-                        
-                        <Button className={classes.button}
-                                onClick = {this.onSubmit}
-                                type="submit"
-                                variant="contained"
-                                color="primary">Continue</Button>
-                                
-                        <Button className={classes.button}
-                                onClick={this.onLogoutClick}
-                                variant="contained"
-                                color="primary">Logout</Button>
+                            {/* <Card className={classes.card}>
+                                <CardMedia
+                                className={classes.media}
+                                image={education}
+                                title="Education"/>
 
+                                <CardContent className={classes.content}>
+                                    <Typography component="h2" variant="h5">Education
+                                        <Checkbox 
+                                        value="checked" />
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+        
+        
+                            <Card className={classes.card}>
+                                <CardMedia
+                                className={classes.media}
+                                image={music}
+                                title="Music"
+                                />
+
+                                <CardContent>
+                                    <Typography component="h2" variant="h5">Music
+                                        <Checkbox 
+                                        value="checked" />
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+
+                            <Card className={classes.card}>
+                                <CardMedia
+                                className={classes.media}
+                                image={music}
+                                title="Music"
+                                />
+
+                                <CardContent>
+                                    <Typography component="h2" variant="h5">Music
+                                        <Checkbox 
+                                        value="checked" />
+                                    </Typography>
+                                </CardContent>
+                            </Card>
                             
+                
+                            <Card className={classes.card}>
+                                <CardMedia
+                                className={classes.media}
+                                image={music}
+                                title="Music"
+                                />
 
-                        
+                                <CardContent>
+                                    <Typography component="h2" variant="h5">Technology
+                                        <Checkbox 
+                                        value="checked" />
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+                            
+        
+                            <Card className={classes.card}>
+                                <CardMedia
+                                className={classes.media}
+                                image={music}
+                                title="Music"
+                                />
+
+                                <CardContent>
+                                    <Typography component="h2" variant="h5">Humour
+                                        <Checkbox 
+                                        value="checked" />
+                                    </Typography>
+                                </CardContent>
+                            </Card>
+
+                            <Card className={classes.card}>
+                                <CardMedia
+                                className={classes.media}
+                                image={music}
+                                title="Music"
+                                />
+
+                                <CardContent>
+                                    <Typography component="h2" variant="h5">Business
+                                        <Checkbox 
+                                        value="checked" />
+                                    </Typography>
+                                </CardContent>
+                            </Card> */}
+                          
+                        </Grid>
+        
+                        <Button className={classes.submit}
+                          type="submit"
+                          variant="contained"
+                          color="primary">Continue</Button>
+
+                        <Button className={classes.submit}
+                          onClick={this.onLogoutClick}
+                          variant="contained"
+                          color="primary">Logout</Button>
         
                     </div>
     
