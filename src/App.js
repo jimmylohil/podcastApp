@@ -21,7 +21,6 @@ import auth from './Components/auth';
 
 
 function App() {
-  const isLogin = auth.isLogin();
   const data = {
     logo : require( "./images/podlogo.png" ),
     loginUrl : "https://iseeliao.localtunnel.me/main/login",
@@ -56,7 +55,7 @@ function App() {
         <Route exact path="/login" render={props => <LoginComp data={data} {...props}/>} />
         <Route exact path="/register" component={RegisterComp} />
         <Route exact path="/categorywelcomepage" render={props => <CategoryWelcomePage data={data} {...props}/>} />
-
+            
         <PrivateRoute path="/home" component={HomePageComp}/>
         <PrivateRoute path="/recommendedforyou" component={RecommendedPageComp} />
         <PrivateRoute path="/new-release" component={() => <DownListComp type="DownListUITypeEpisode" title="New Release" />} />

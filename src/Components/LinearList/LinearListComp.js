@@ -18,7 +18,7 @@ const useStyles = makeStyles(theme => ({
 },
 }));
 
-function CenteredGrid(props) {
+function LinearListComp(props) {
   const classes = useStyles();
   const title = props.title &&
     <div>
@@ -61,4 +61,4 @@ function CenteredGrid(props) {
   );
 }
 
-export default CenteredGrid;
+export default LinearListComp;

@@ -85,7 +85,9 @@ paperlist : {
     paddingRight : '5px',
     textAlign : 'left',
 },
-
+chip : {
+    margin : 5,
+}
 });
 
 
@@ -102,13 +104,14 @@ class CategoryWelcomePage extends Component{
     onChange = e =>{
         const preferred = this.state.preferred
         let index
-
+  
         //check if the check box is checked or unchecked
         if(e.target.checked){
-            preferred.push(+e.target.value)
+
+            preferred.push(e.target.value)
         }
         else{
-            index = preferred.indexOf(+e.target.value)
+            index = preferred.indexOf(e.target.value)
             preferred.splice(index,1)
         }
 
@@ -117,10 +120,8 @@ class CategoryWelcomePage extends Component{
         console.log (this.state.preferred);
     };
 
-
-
     componentDidMount(){
-        axios.get('http://localhost:80/api/category/list?token='.concat(sessionStorage.getItem("JWT")))
+        axios.get('http://localhost:8000/api/category/list?token='.concat(sessionStorage.getItem("JWT")))
         .then(
             (response) => {
                 console.log("Get category successful")
@@ -128,7 +129,7 @@ class CategoryWelcomePage extends Component{
                 this.setState(
                     {category:response.data.categories}
                 )
-                // console.log(this.state.category)
+
             }
         )
 
@@ -162,28 +163,25 @@ class CategoryWelcomePage extends Component{
                                 <SearchIcon />
                             </IconButton>
                         </Paper>
-        
-                        <Paper className={classes.paperlist}>
+                        <div className={classes.paperlist}>
+    
                             {preferred.map(item =>{
                                 return(
                                     <Chip
-                                    label={item}
-                                    />
+                                        label={item}
+                                        className={classes.chip}
+                                        />
+                                    
                                 )
                             })}
-                            <Chip
-                            label="Deletable Chip"
-                            onDelete="{handleDelete}"
-                            className="{classes.chip}"
-                            />
-                        </Paper>
-        
+
+                        </div>   
                         <Grid container maxWidth="lg"> 
 
                             {
                                 category.map((item, i) =>
                                     {   
-                                        console.log(item)
+                                        //console.log(item)
                                         return(
                                             <Card className={classes.card}>
                                                 <CardMedia
