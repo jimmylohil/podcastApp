@@ -28,6 +28,7 @@ import PropTypes from 'prop-types';
 import Login from './LoginComp';
 import {withRouter} from 'react-router-dom';
 import axios from 'axios';
+import { tsConstructSignatureDeclaration } from '@babel/types';
 
 
 const useStyles = theme =>({
@@ -104,15 +105,44 @@ class CategoryWelcomePage extends Component{
         this.state = {
             category : [],
             preferred : [],
+            filtered : [],
             username : this.props.location.state.username
         };
         this.onChange = this.onChange.bind(this);
+        this.onSearch = this.onSearch.bind(this);
+    };
+
+    componentDidMount(){
+        
+        axios.get('http://localhost:80/api/category/list?token='.concat(sessionStorage.getItem("JWT")))
+        .then(
+            (response) => {
+                console.log("Get category successful")
+                console.log(response)
+                var filtered = this.state.filtered;
+                this.setState(
+                    {
+                        category:response.data.categories,
+                        filtered: response.data.categories,
+                    }
+                )
+                console.log(filtered)
+                
+            }
+        )
+
+        .catch(function(error){
+            console.log(error);
+        })
+        
+
     };
 
     onChange = e =>{
+        e.preventDefault();
         const preferred = this.state.preferred
         let index
-
+        
         //check if the check box is checked or unchecked
         if(e.target.checked){
             preferred.push(e.target.value)
@@ -123,10 +153,11 @@ class CategoryWelcomePage extends Component{
         }
 
         this.setState({preferred: preferred})
+       
         if(this.state.preferred.length > 3){
             alert("Pick 3 categories")
-            
         }
+        
         console.log (this.state.preferred);
     };
 
@@ -136,6 +167,8 @@ class CategoryWelcomePage extends Component{
             pathname:'/login',
             });
     }
+
+    
 
     onSubmit = e =>{
         e.preventDefault();
@@ -172,31 +205,43 @@ class CategoryWelcomePage extends Component{
         
     }
 
-
-
-    componentDidMount(){
-        axios.get('http://localhost:80/api/category/list?token='.concat(sessionStorage.getItem("JWT")))
-        .then(
-            (response) => {
-                console.log("Get category successful")
-                console.log(response)
-                this.setState(
-                    {category:response.data.categories}
-                )
-                // console.log(this.state.category)
-            }
-        )
-
-        .catch(function(error){
-            console.log(error);
+    onSearch = e =>{
+        var filtered = this.state.category;
+        filtered = filtered.filter((item => {
+            return item.toLowerCase().search(e.target.value.toLowerCase()) !== -1;
+            
+        }));
+        this.setState({
+            filtered : filtered,
         })
+        // let filtered = this.state.category;
         
-    };
+        // if(e.target.value !== 0){
+        //     filtered = filtered.filter((item)=>{
+        //         return item.toLowerCase().search(e.target.value.toLowerCase()) !== -1;
+        //     });
+        // }
+
+        // else{
+        //     filtered = this.state.category;
+        // }
+        
+        // this.setState(
+        //     {filtered: filtered}
+        // );
+        
+    }
+
+
+    
+
+   
 
     render(){
         const {category} = this.state;
         const {classes} = this.props;
         const {preferred} = this.state;
+        
             return (
                 <Container component="main" spacing={0} justify="center" style={{minHeight: '100vh', width : '80%'}}> 
             
@@ -205,13 +250,14 @@ class CategoryWelcomePage extends Component{
                             What are you interested in ?
                         </Typography>
                         <Typography component="h2" variant="h3">
-                            Haiii ! {this.props.location.state.username}
+                            Haiii ! {this.state.username}
                         </Typography>
         
                         <Paper className={classes.searchbox}>
                             <InputBase
                             className={classes.input}
                             placeholder="Search Categories"
+                            onChange = {this.onSearch}
                             />
                             <IconButton className={classes.iconButton} aria-label="Search">
                                 <SearchIcon />
@@ -223,7 +269,7 @@ class CategoryWelcomePage extends Component{
                                 return(
                                     <Chip
                                     label={item}
-                                    className={chip}
+                                    className={classes.chip}
                                     />
                                 )
                             })}
@@ -233,7 +279,7 @@ class CategoryWelcomePage extends Component{
                         <Grid container maxWidth="lg"> 
 
                             {
-                                category.map((item, i) =>
+                                this.state.filtered.map((item, i) =>
                                     {   
                                         
                                         return(
@@ -252,7 +298,8 @@ class CategoryWelcomePage extends Component{
                                                         name={item}
                                                         value={item}
                                                         label={item}
-                                                        onClick={this.onChange} />
+                                                        onClick={this.onChange}
+                                                         />
                                                     </Typography>
                                                 </CardContent>
                                                 
