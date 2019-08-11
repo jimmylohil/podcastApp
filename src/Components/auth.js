@@ -1,3 +1,5 @@
+import axios from 'axios'
+
 class auth {
     constructor(){
         this.authenticated = false;
@@ -9,19 +11,32 @@ class auth {
         callback();
     }
 
-    logout(){
+    logout(callback){
         this.authenticated =false;
+        callback();
     }
-    isLogin(){
-        return this.authenticated;
+
+    isLogin = async () =>{
+        await axios.get('http://localhost:8000/api/testToken/?token='.concat(sessionStorage.getItem("JWT")))
+        .then(
+            (response) => {
+                if(response.data.message === "token is valid"){
+                    this.authenticated = true;        
+            }}
+            ) 
+            .catch(function(error){
+            console.log(error);
+            })
+            
+        return await this.authenticated;
     }
 
     showPlayer(){
-        this.show =true;
+        this.show = true;
     }
 
     hidePlayer(){
-        this.show =false;
+        this.show = false;
     }
     isShow(){
         return this.show;

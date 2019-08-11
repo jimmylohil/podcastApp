@@ -1,4 +1,4 @@
-import React from 'react'
+import React , {useEffect} from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import DownListComp from './DownList/DownListComp'
 import { Grid, Container } from '@material-ui/core';
@@ -13,8 +13,8 @@ import Rating from '@material-ui/lab/Rating';
 import Modal from '@material-ui/core/Modal';
 import ReviewComp from './ReviewComp';
 import TextareaAutosize from '@material-ui/core/TextareaAutosize';
+import TextField from '@material-ui/core/TextField'
 import images from './podcast.jpg';
-import auth from './auth';
 
 function getModalStyle() {
     const top = 50 ;
@@ -51,7 +51,7 @@ const useStyles = makeStyles(theme => ({
       },
     title: {
         margin:0,
-        fontSize:75,
+        fontSize:45,
         textAlign: 'left',
     },
     podcaster: {
@@ -71,6 +71,11 @@ const useStyles = makeStyles(theme => ({
         marginTop:30,
         marginBottom:10,
     },
+    textField: {
+        width:410,
+        marginLeft: theme.spacing(1),
+        marginRight: theme.spacing(1),
+      },
     paper: {
         position: 'absolute',
         width: 400,
@@ -80,13 +85,26 @@ const useStyles = makeStyles(theme => ({
         padding: theme.spacing(2, 4, 4),
         outline: 'none',
       },
+    heading:{
+        textAlign: 'left' ,
+    }
 }));
 
-function EpisodePageComp() {
+function EpisodePageComp({match}) {
+    useEffect(() => {
+        fetchItem()
+        console.log(match)
+    }, [])
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
+    const [review, setReview] = React.useState("");
     const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
+
+    const[item,setItem] =React.useState({
+        episode:{
+            podcast:{}
+        }})
   
     const handleOpen = () => {
       setOpen(true);
@@ -96,9 +114,16 @@ function EpisodePageComp() {
       setOpen(false);
     };
 
+    const fetchItem = async () =>{
+        const fetchItem = await fetch(`http://localhost:8000/api/episodes/?token=${sessionStorage.getItem("JWT")}&uuid=${match.params.uuid}`)
+        const item = await fetchItem.json();
+        await setItem(item)
+        console.log (item)
+    };
+
+
     return (
         <div className={classes.root}>
-            {console.log(auth.isShow())}
             <Container fixed>
                 <Grid 
                     container 
@@ -117,7 +142,7 @@ function EpisodePageComp() {
                             justify="center"
                             alignItems="center" >
                             <ButtonBase>
-                                <img className={classes.image} alt="complex" src={images} />
+                                <img className={classes.image} alt="complex" src={item.episode.podcast.image} />
                             </ButtonBase>
                         </Grid>
                     </Grid>
@@ -131,7 +156,7 @@ function EpisodePageComp() {
                             alignItems="flex-start"
                             >
                             <Grid item xs ={12}>
-                                <h1 className={classes.title}>Episode: Title</h1>
+                                <h1 className={classes.title}>{item.episode.title}</h1>
                             </Grid>
                             <Grid item xs ={12}>
                                 <h2 className={classes.podcaster}>By Podcaster</h2>
@@ -146,7 +171,7 @@ function EpisodePageComp() {
                                     direction="row"
                                     justify="center"
                                     alignItems="center">
-                                    <h4 className={classes.rate}>3/5</h4>
+                                    <h4 className={classes.rate}>{value}/5</h4>
                                 </Grid>
                             </Grid>
                             <Grid item xs ={12}>
@@ -161,6 +186,7 @@ function EpisodePageComp() {
                                         color="primary" 
                                         className={classes.button} 
                                         onClick={handleOpen}>
+
                                         Review
                                     </Button>
                                     {/* ReviewModal */}
@@ -187,7 +213,7 @@ function EpisodePageComp() {
                                                     justify="center"
                                                     alignItems="center" >
                                                     <ButtonBase>
-                                                        <img className={classes.img} alt="complex" src={images} />
+                                                        <img className={classes.img} alt="complex" src={item.episode.podcast.image} />
                                                     </ButtonBase>
                                                 </Grid>
                                             </Grid>
@@ -207,7 +233,7 @@ function EpisodePageComp() {
                                                         direction="row"
                                                         justify="flex-start"
                                                         alignItems="flex-start">
-                                                            <h1>Episode: Title</h1>
+                                                            <h1>{item.episode.title}</h1>
                                                         </Grid>
                                                     </Grid>
                                                     <Grid item xs ={12}>
@@ -237,13 +263,19 @@ function EpisodePageComp() {
                                                     direction="row"
                                                     justify="flex-start"
                                                     alignItems="flex-start">
-                                                    <TextareaAutosize
-                                                        rowsMax={4}
-                                                        aria-label="maximum height"
-                                                        placeholder="Maximum 4 rows"
-                                                        className={classes.review}
-                                                        defaultValue="Review Here"
-                                                        />
+                                                    <TextField
+                                                        id="outlined-textarea"
+                                                        label="Review"
+                                                        placeholder="Review Here"
+                                                        multiline
+                                                        className={classes.textField}
+                                                        margin="normal"
+                                                        variant="outlined"
+                                                        value = {review}
+                                                        onChange={(event) => {
+                                                        setReview(event.target.value);
+                                                    }}
+                                                    />
                                                     </Grid>
                                                 </Grid>
                                             </Grid>
@@ -258,7 +290,7 @@ function EpisodePageComp() {
                                                     <Button variant="contained" color="secondary" onClick={handleClose}>Cancel</Button>
                                                 </Grid>
                                                 <Grid item xs ={3}>
-                                                    <Button variant="contained" color="primary">Save</Button>
+                                                    <Button variant="contained" color="primary" onClick={handleClose} >Save</Button>
                                                 </Grid>
                                                 </Grid>
                                             </Grid>
@@ -277,12 +309,11 @@ function EpisodePageComp() {
                                 aria-controls="panel1a-content"
                                 id="panel1a-header"
                                 >
-                                <Typography className={classes.heading}>About</Typography>
+                                <Typography style={{textAlign: 'right'}} >About</Typography>
                             </ExpansionPanelSummary>
                             <ExpansionPanelDetails>
                                 <Typography>
-                                    Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse malesuada lacus ex,
-                                    sit amet blandit leo lobortis eget.
+                                {item.episode.description}
                                 </Typography>
                             </ExpansionPanelDetails>
                         </ExpansionPanel>

@@ -3,16 +3,10 @@ import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
 import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
-import Container from '@material-ui/core/Container';
+import { withStyles } from '@material-ui/core/styles';
 import Link from '@material-ui/core/Link';
-import {Link as RouterLink, BrowserRouter, Route, withRouter} from 'react-router-dom';
-import CssBaseline from '@material-ui/core/CssBaseline';
-import bgImg from '../images/bg.jpg';
+import {Link as RouterLink, withRouter} from 'react-router-dom';
 import PropTypes from 'prop-types';
-//import {connect} from 'react-redux';
-import classnames from 'classnames';
-import CategoryWelcomePage from './CategoryWelcomePage';
 import axios from 'axios';
 import auth from './auth';
 
@@ -43,22 +37,6 @@ submit : {
   background: 'linear-gradient(326deg, #050115 0%, #100a26 47%, #3c0b65 95%)',
 
 },
-
-// textfield : {
-//   color : theme.palette.common.white,
-
-//   '& .MuiOutlinedInput-root': {
-//     '& fieldset': {
-//       borderColor: 'grey',
-//     },
-//     '&:hover fieldset': {
-//       borderColor: 'black',
-//     },
-//     '&.Mui-focused fieldset': {
-//       borderColor: 'purple',
-//     },
-//   },
-// }
 
 link : {
   textDecoration : 'none',
@@ -100,7 +78,6 @@ class Login extends Component {
   
 
   onChange = e => {
-    // this.setState({[e.target.id] : e.target.value})
     e.preventDefault();
     const {id, value} = e.target;
     let formErrors = this.state.formErrors;
@@ -139,11 +116,6 @@ class Login extends Component {
       console.error("Form Error");
 
     }
-    
-    const userData = {
-      username : this.state.username,
-      password : this.state.password
-    }
 
     var apiUrl = "http://localhost:8000/main/login";
     var self = this;
@@ -157,27 +129,24 @@ class Login extends Component {
       function(response){
         console.log(response);
 
-        if(response.status == 200 && response.data.error == null){
+        if(response.status === 200 && response.data.error == null){
           console.log("Login successful");
           alert("Login Success");
           
           auth.login( () =>{
-
-          let authToken = response.data.token;
-          sessionStorage.setItem("JWT", authToken);
-          self.props.history.push({
-            pathname:'/categorywelcomepage',
-            state:{
-              username : self.state.username,
-          }});
-        })
+            let authToken = response.data.token;
+            sessionStorage.setItem("JWT", authToken);
+            console.log( sessionStorage.getItem("JWT", authToken))
+            self.props.history.push({
+              pathname:'/home',
+              state:{
+                username : self.state.username,
+            }});
+            sessionStorage.setItem("Username", self.state.username);
+          })
           }
-
-          // var categoryPage=[];
-          // categoryPage.push(<CategoryWelcomePage appContext={self.props.appContext}/>)
-          //   self.props.appContext.setState({Login:[], categoryPage:categoryPage})
         
-        else if(response.status == 200 && response.data.error == true){
+        else if(response.status === 200 && response.data.error === true){
           console.log("Username password do not match");
           alert("Username Password do not match")
         }
