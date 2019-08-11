@@ -47,7 +47,7 @@ const useStyles = makeStyles(theme => ({
 function ShowPageComp() {
     const classes = useStyles();
     const [expanded, setExpanded] = React.useState(false);
-    const [value, setValue] = React.useState(3);
+    const [value] = React.useState(3);
 
     const handleChange = panel => (event, isExpanded) => {
         setExpanded(isExpanded ? panel : false);

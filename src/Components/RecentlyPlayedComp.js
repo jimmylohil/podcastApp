@@ -2,7 +2,6 @@ import React from 'react'
 import { makeStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
 import LinearListComp from './LinearList/LinearListComp'
-import {Link} from 'react-router-dom';
 import {Pie} from 'react-chartjs-2';
 
 const useStyles = makeStyles(theme => ({

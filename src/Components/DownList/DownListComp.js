@@ -12,7 +12,6 @@ const useStyles = makeStyles(theme => ({
 
 function DownListComp(props) {
   const classes = useStyles();
-  console.log (props.type);
   const title = props.title &&
     <div>
       <Grid 

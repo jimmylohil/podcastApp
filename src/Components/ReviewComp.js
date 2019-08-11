@@ -24,7 +24,7 @@ const useStyles = makeStyles(theme => ({
 export default function CenteredGrid() {
   const classes = useStyles();
 
-  const [value, setValue] = React.useState(3);
+  const [value] = React.useState(3);
 
   return (
     <div className={classes.root}>

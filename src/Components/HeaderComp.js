@@ -1,4 +1,4 @@
-import React from 'react';
+import React, {useEffect,useState,useRef} from 'react';
 import { fade, makeStyles } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -8,7 +8,6 @@ import Badge from '@material-ui/core/Badge';
 import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import SearchIcon from '@material-ui/icons/Search';
-import AccountCircle from '@material-ui/icons/AccountCircle';
 import Category from '@material-ui/icons/Category';
 import NotificationsIcon from '@material-ui/icons/Notifications';
 import { Button, Container, Grid } from '@material-ui/core';
@@ -16,11 +15,12 @@ import ToolTip from '@material-ui/core/ToolTip';
 import { withStyles } from '@material-ui/core/styles';
 import Box from '@material-ui/core/Box';
 import ListItemText from '@material-ui/core/ListItemText';
-import SubscriptionsIcon from '@material-ui/icons/Subscriptions';
 import StarIcon from '@material-ui/icons/Star';
 import ArrowDropDownIcon from '@material-ui/icons/ArrowDropDown';
 import {Link} from 'react-router-dom';
-import logo from './podlogo.png';
+import Typography from '@material-ui/core/Typography';
+
+
 
 const useStyles = makeStyles(theme => ({
   grow: {
@@ -42,7 +42,6 @@ const useStyles = makeStyles(theme => ({
     '&:hover': {
       backgroundColor: fade(theme.palette.common.white, 0.25),
     },
-    //marginTop: theme.spacing(2),
     marginRight: theme.spacing(2),
     width: '100%',
 
@@ -88,7 +87,7 @@ const useStyles = makeStyles(theme => ({
 }));
 
 export default function PrimarySearchAppBar(props) {
-  const [data,setData] = React.useState(props.data);
+  const [data] = React.useState(props.data);
   const classes = useStyles();
   const [anchorEl, setAnchorEl] = React.useState(null);
   const [anchorCategoryEl, setAnchorCategoryEl] = React.useState(null);
@@ -107,7 +106,7 @@ export default function PrimarySearchAppBar(props) {
 
   function handleCloseCategory() {
     setAnchorCategoryEl(null);
-  }
+  }  
 
   const StyledMenu = withStyles({
     paper: {
@@ -180,15 +179,12 @@ export default function PrimarySearchAppBar(props) {
                       onClose={handleCloseCategory}
                     >
                       <Box width={200}>
-                        <StyledMenuItem>
-                          <ListItemText primary="Profile" />
-                        </StyledMenuItem>
-                        <StyledMenuItem>
-                          <ListItemText primary="Setting" />
-                        </StyledMenuItem>
-                        <StyledMenuItem>
-                          <ListItemText primary="Log Out" />
-                        </StyledMenuItem>
+                      {props.data.categoryList.map(option => (
+                        <MenuItem>
+                          <Typography variant="inherit">{option}</Typography>
+                        </MenuItem>
+                      ))
+                      }
                       </Box>
                     </StyledMenu>
                 </Grid>
@@ -241,8 +237,7 @@ export default function PrimarySearchAppBar(props) {
                     color="inherit"
                     onClick={handleClick}
                   >
-                  <AccountCircle />
-                    Username
+                  {sessionStorage.getItem("Username")}
                   <ArrowDropDownIcon />
                   </Button>
                     <StyledMenu

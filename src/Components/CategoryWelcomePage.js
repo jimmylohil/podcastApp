@@ -2,30 +2,20 @@ import React from 'react';
 import {Component} from 'react';
 import Button from '@material-ui/core/Button';
 import Typography from '@material-ui/core/Typography';
-import TextField from '@material-ui/core/TextField'
 import Grid from '@material-ui/core/Grid';
-import { makeStyles, withStyles } from '@material-ui/core/styles';
+import { withStyles } from '@material-ui/core/styles';
 import Container from '@material-ui/core/Container';
-import Link from '@material-ui/core/Link';
 import Paper from '@material-ui/core/Paper';
 import InputBase from '@material-ui/core/InputBase';
-import Box from '@material-ui/core/Box';
 import IconButton from '@material-ui/core/IconButton';
 import SearchIcon from '@material-ui/icons/Search';
-import GridList from '@material-ui/core/GridList';
-import GridListTile from '@material-ui/core/GridListTile';
 import Card from '@material-ui/core/Card';
 import CardContent from '@material-ui/core/CardContent';
-import CardActions from '@material-ui/core/CardActions';
-import CardActionArea from '@material-ui/core/CardActionArea';
 import CardMedia from '@material-ui/core/CardMedia';
 import Checkbox from '@material-ui/core/Checkbox';
 import Chip from '@material-ui/core/Chip';
-import img from '../images/bg.jpg';
 import education from '../images/education.jpg';
-import music from '../images/music.jpg';
 import PropTypes from 'prop-types';
-import Login from './LoginComp';
 import {withRouter} from 'react-router-dom';
 import axios from 'axios';
 import { tsConstructSignatureDeclaration } from '@babel/types';
@@ -172,7 +162,7 @@ class CategoryWelcomePage extends Component{
 
     onSubmit = e =>{
         e.preventDefault();
-        if(this.state.preferred.length != 3){
+        if(this.state.preferred.length !== 3){
             alert("Pick 3 categories");
         }
         else{
@@ -184,7 +174,7 @@ class CategoryWelcomePage extends Component{
             console.log(pref2)
             console.log(pref3)
             console.log(username)
-            var apiUrl = `http://localhost:80/api/setPreferredCategories?username=${username}&pref=${pref1}&pref=${pref2}&pref=${pref3}&token=`.concat(sessionStorage.getItem("JWT"));
+            var apiUrl = `http://localhost:8000/api/setPreferredCategories?username=${username}&pref=${pref1}&pref=${pref2}&pref=${pref3}&token=`.concat(sessionStorage.getItem("JWT"));
             console.log(apiUrl);
             axios.post(apiUrl)
             .then(

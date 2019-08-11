@@ -38,7 +38,7 @@ const useStyles = theme =>({
   },
 });
 
-const emailRegex = RegExp(/^[a-zA-Z0-9.!#$%&'*+\/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/)
+const emailRegex = RegExp(/^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/)
 
 const formValid = ({ formErrors, ...rest}) =>{
   let valid = true;
@@ -129,7 +129,7 @@ class Register extends Component{
     .then(
       function(response){
         console.log(response);
-        if(response.data.code == 200){
+        if(response.data.code === 200){
           console.log("Registration successfull");
           alert("Registration successful");
           var categoryPage=[];

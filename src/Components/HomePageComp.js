@@ -1,25 +1,34 @@
-import React from 'react'
-import { makeStyles } from '@material-ui/core/styles';
+import React, { Component } from 'react';
+import { withStyles } from '@material-ui/core/styles';
 import LinearListComp from './LinearList/LinearListComp'
 import SquareGrid from './SquareGrid';
 import { Grid, Container } from '@material-ui/core';
 import {Link} from 'react-router-dom';
+import PropTypes from 'prop-types';
 
-const useStyles = makeStyles(theme => ({
+const useStyles = theme => ({
     root: {
       flexGrow: 1,
     },
-  }));
+  });
 
+class HomePageComp extends Component {
+    constructor(props){
+        super(props);
+        this.state = {
+            latestEpi : null
+        };
+    };
 
-function HomeContainerComp() {
-    const classes = useStyles();
+    render(){
+    const {classes} = this.props;
+    const NewReleaseUrl = "http://localhost:8000/api/latesteps/?token=".concat(sessionStorage.getItem("JWT"))
 
     return (
         <div className={classes.root}>
             <Container fixed>
                 {/* New Release */}
-                <LinearListComp  type="LinearListUITypeNew" title="New Release"/>
+                    <LinearListComp  type="LinearListUITypeNew" title="New Release" url={NewReleaseUrl}/>
                 {/* Show More */}
                 <Grid 
                     container 
@@ -68,5 +77,12 @@ function HomeContainerComp() {
         </div>
     )
 }
+}
+HomePageComp.propTypes = {
+    classes : PropTypes.object.isRequired,
+    
+}
 
-export default HomeContainerComp
+
+
+export default withStyles(useStyles)(HomePageComp);
