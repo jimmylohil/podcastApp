@@ -78,11 +78,8 @@ const useStyles = makeStyles(theme => ({
       display: 'none',
     },
   },
-  red: {
-    backgroundColor: 'red',
-  },
-  blue: {
-    backgroundColor: 'blue',
+  link : {
+    textDecoration : 'none',
   },
 }));
 
@@ -221,15 +218,14 @@ export default function PrimarySearchAppBar(props) {
                     </IconButton>
                   </ToolTip>
                   <Button
-                          aria-controls="customized-menu"
-                          aria-haspopup="true"
-                          variant="text"
-                          color="inherit"
-                        >
-                        <StarIcon />
-                        Trending
-                      </Button>
-                  
+                      aria-controls="customized-menu"
+                      aria-haspopup="true"
+                      variant="text"
+                      color="inherit"
+                    >
+                    <StarIcon />
+                    Trending
+                  </Button>
                   <Button
                     aria-controls="customized-menu"
                     aria-haspopup="true"
@@ -249,7 +245,9 @@ export default function PrimarySearchAppBar(props) {
                     >
                       <Box width={200}>
                         <StyledMenuItem>
-                          <ListItemText primary="Profile" />
+                          <Link to = {`/userpage/${sessionStorage.getItem("Username")}`} className={classes.link} >
+                            <ListItemText primary="Profile" />
+                          </Link>
                         </StyledMenuItem>
                         <StyledMenuItem>
                           <ListItemText primary="Setting" />

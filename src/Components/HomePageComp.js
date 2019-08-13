@@ -13,22 +13,18 @@ const useStyles = theme => ({
   });
 
 class HomePageComp extends Component {
-    constructor(props){
-        super(props);
-        this.state = {
-            latestEpi : null
-        };
-    };
+
 
     render(){
     const {classes} = this.props;
     const NewReleaseUrl = "http://localhost:8000/api/latesteps/?token=".concat(sessionStorage.getItem("JWT"))
+    const RecommendedForYouUrl = `http://localhost:8000/api/getSuggestion?token=${sessionStorage.getItem("JWT")}&username=${sessionStorage.getItem("Username")}`
 
     return (
         <div className={classes.root}>
             <Container fixed>
                 {/* New Release */}
-                    <LinearListComp  type="LinearListUITypeNew" title="New Release" url={NewReleaseUrl}/>
+                <LinearListComp  type="LinearListUITypeNew" title="New Release" url={NewReleaseUrl}/>
                 {/* Show More */}
                 <Grid 
                     container 
@@ -59,25 +55,13 @@ class HomePageComp extends Component {
                     </Grid>
                 </Grid>
                 {/* Recommended For You */}
-                <SquareGrid title="Recommended For You"/>
-                {/* Show More */}
-                <Grid 
-                    container 
-                    spacing={1}
-                    direction="row"
-                    justify="flex-end"
-                    alignItems="center">
-                    <Grid item xs={1}>
-                        <Link to="/recommendedforyou">
-                            <h5>Show More >></h5>
-                        </Link>
-                    </Grid>
-                </Grid>
+                <SquareGrid title="Recommended For You" url={RecommendedForYouUrl}/>
             </Container>
         </div>
     )
+    }
 }
-}
+
 HomePageComp.propTypes = {
     classes : PropTypes.object.isRequired,
     

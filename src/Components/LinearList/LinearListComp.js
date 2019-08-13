@@ -37,12 +37,12 @@ class LinearListComp extends Component{
        allstring5 : ""
     };
   };
-  componentDidMount(){
-    axios.get(this.props.url)
+  componentDidMount() {
+     axios.get(this.props.url)
     .then(
         (response) => {
             var counter = 0;
-            response.data.episodes.forEach(val => {
+              response.data.episodes.forEach(val => {
               if (counter === 0) {
                 allstring += val.title + "|" + val.description + "|" + val.uuid
               }
@@ -62,7 +62,7 @@ class LinearListComp extends Component{
                 allstring5 += val.title + "|" + val.description + "|" + val.uuid
               }
               counter++;
-            });
+            })
             this.setState(
                 {allstring : allstring,
                 allstring1 : allstring1,
@@ -70,15 +70,10 @@ class LinearListComp extends Component{
                 allstring3 : allstring3,
                 allstring4 : allstring4,
                 allstring5 : allstring5}
-            )
-            
-        }
-    )
-
+            )})
     .catch(function(error){
         console.log(error);
     })
-    
   };
     render(){
     const {classes} = this.props;

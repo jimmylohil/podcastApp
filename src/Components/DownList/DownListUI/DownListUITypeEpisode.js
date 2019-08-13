@@ -36,11 +36,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-export default function DownListUITypeEpisode() {
+export default function DownListUITypeEpisode(props) {
   const classes = useStyles();
+  let data = props.data.split('|');
+  const uuid = data[2];
+  const title = data[0].length >= 30 ? data[0].slice(0, 30).concat('...') : data[0]
   
   return (
     <div className={classes.root}>
+      
       <Paper className={classes.paper}>
         <Link to="/episodepage">
           <Grid container xs={12}spacing={2}>
@@ -53,18 +57,13 @@ export default function DownListUITypeEpisode() {
               <Grid item xs container direction="column" spacing={2}>
                 <Grid item xs>
                   <Typography gutterBottom variant="subtitle1">
-                    Podcast Episode
-                  </Typography>
-                  <Typography variant="body2" gutterBottom>
-                    Full resolution 1920x1080 • JPEG
-                  </Typography>
-                  <Typography variant="body2" color="textSecondary">
-                    ID: 1030114
+                    Hahah
                   </Typography>
                 </Grid>
                 <Grid item>
                   <Typography variant="body2" style={{ cursor: 'pointer' }}>
-                    Remove
+            
+                  {data[1] != null && data[1].length >= 200 ? data[1].slice(0, 200).concat('...') : data[1]}
                   </Typography>
                 </Grid>
               </Grid>

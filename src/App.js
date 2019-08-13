@@ -22,7 +22,6 @@ import axios from 'axios';
 
 
 function App() {
-   
   // category List
   let options =[]
   axios.get('http://localhost:8000/api/category/list?token='.concat(sessionStorage.getItem("JWT")))
@@ -44,11 +43,12 @@ function App() {
     latestEpiUrl : "http://localhost:8000/api/latesteps/?token=",
     categoryList: options,
   }
+
   
   const PrivateRoute = ({component: Component, ...rest}) => (
     
     <Route {...rest} render={(props) => {
-      if(auth.isLogin()) {
+      if(auth.isLogin() === true) {
       return (
         <div>
           <HeaderComp data={data}/>
@@ -93,7 +93,7 @@ function App() {
           <PrivateRoute path="/playlist" component={PlaylistPageComp} />
           <PrivateRoute path="/dashboard" component={DashboardPageComp} />
           <PrivateRoute path="/insight" component={InsightForPodcasterComp} />
-        )
+        
         
         
       </div>

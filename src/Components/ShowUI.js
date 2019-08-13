@@ -26,8 +26,12 @@ const useStyles = makeStyles(theme => ({
   },
 }));
 
-export default function ComplexGrid() {
+export default function ComplexGrid(props) {
   const classes = useStyles();
+  let data = props.data.split('|');
+  const uuid = data[2];
+
+  const title = data[0].length >= 30 ? data[0].slice(0, 30).concat('...') : data[0]
 
   return (
     <div className={classes.root}>
@@ -41,26 +45,17 @@ export default function ComplexGrid() {
           <Grid item xs container direction="column" spacing={2}>
             <Grid item xs>
               <Typography gutterBottom variant="subtitle1">
-                Standard license
-              </Typography>
-              <Typography variant="body2" gutterBottom>
-                Full resolution 1920x1080 • JPEG
-              </Typography>
-              <Typography variant="body2" color="textSecondary">
-                ID: 1030114
+                {title}
               </Typography>
             </Grid>
             <Grid item>
               <Typography variant="body2" style={{ cursor: 'pointer' }}>
-                Remove
+                {data[1] != null && data[1].length >= 200 ? data[1].slice(0, 200).concat('...') : data[1]}
               </Typography>
             </Grid>
-          </Grid>
-          <Grid item>
-            <Typography variant="subtitle1">$19.00</Typography>
           </Grid>
         </Grid>
       </Grid>
     </div>
-  );
+  )
 }

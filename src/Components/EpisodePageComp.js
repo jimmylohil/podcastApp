@@ -94,18 +94,21 @@ function EpisodePageComp({match}) {
     useEffect(() => {
         fetchItem()
         console.log(match)
-    }, [])
+    },)
+
     const classes = useStyles();
     const [value, setValue] = React.useState(0);
     const [review, setReview] = React.useState("");
     const [modalStyle] = React.useState(getModalStyle);
     const [open, setOpen] = React.useState(false);
-
+    const uuid = match.params.uuid
     const[item,setItem] =React.useState({
         episode:{
             podcast:{}
         }})
-  
+        
+    const RecommendedEpisodeUrl = `http://localhost:8000/api/relatedEpisode/?token=${sessionStorage.getItem("JWT")}&uuid=${uuid}`
+    
     const handleOpen = () => {
       setOpen(true);
     };
@@ -115,7 +118,7 @@ function EpisodePageComp({match}) {
     };
 
     const fetchItem = async () =>{
-        const fetchItem = await fetch(`http://localhost:8000/api/episodes/?token=${sessionStorage.getItem("JWT")}&uuid=${match.params.uuid}`)
+        const fetchItem = await fetch(`http://localhost:8000/api/episodes/?token=${sessionStorage.getItem("JWT")}&uuid=${uuid}`)
         const item = await fetchItem.json();
         await setItem(item)
         console.log (item)
@@ -337,7 +340,7 @@ function EpisodePageComp({match}) {
                         </ExpansionPanel>        
                     </Grid>
                 </Grid>   
-                <DownListComp type="DownListUITypeEpisode"/>        
+                <DownListComp type="DownListUITypeEpisode" id={uuid} url={RecommendedEpisodeUrl}/>        
             </Container>
         </div>
     )
