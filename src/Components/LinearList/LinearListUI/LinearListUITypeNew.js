@@ -36,7 +36,6 @@ export default function LinearListUITypeNew(props) {
   const classes = useStyles();
   let data = props.data.split('|');
   const uuid = data[2];
-  
   const title = data[0].length >= 30 ? data[0].slice(0, 30).concat('...') : data[0]
 
   return (

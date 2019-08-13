@@ -16,8 +16,8 @@ class auth {
         callback();
     }
 
-    isLogin = async () =>{
-        await axios.get('http://localhost:8000/api/testToken/?token='.concat(sessionStorage.getItem("JWT")))
+    isLogin(){
+        axios.get('http://localhost:8000/api/testToken/?token='.concat(sessionStorage.getItem("JWT")))
         .then(
             (response) => {
                 if(response.data.message === "token is valid"){
@@ -28,7 +28,7 @@ class auth {
             console.log(error);
             })
             
-        return await this.authenticated;
+        return this.authenticated;
     }
 
     showPlayer(){

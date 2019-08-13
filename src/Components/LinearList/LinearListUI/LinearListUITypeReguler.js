@@ -34,18 +34,18 @@ const useStyles = makeStyles(theme => ({
 
 export default function LinearListUITypeReguler(props) {
   const classes = useStyles();
-  let data = props.data.split(',');
+  //let data = props.data.split('|');
 
   return (
     <Card className={classes.card}>
       <CardMedia
         className={classes.media}
         image={image}
-        title={data[1]}
+        title="title"
       />
       <CardContent>
         <Typography variant="body2" color="textSecondary" component="p">
-        {data[0]}
+
         </Typography>
       </CardContent>
     </Card>
